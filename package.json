@@ -15,6 +15,8 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.11.8"
+    "mongoose": "^5.11.8",
+    "node-binance-api": "^0.12.4",
+    "technicalindicators": "^3.1.0"
   }
 }

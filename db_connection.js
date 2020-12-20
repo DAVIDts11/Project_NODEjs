@@ -1,6 +1,6 @@
 const mongoose = require('mongoose' );
 const consts = require('./constants' );
-const { DB_HOST, DB_USER, DB_PASS } = consts;
+const { DB_HOST, DB_USER, DB_PASS } = consts.DB_CONSTANTS;
 const url = DB_HOST;
 const options = {
  useNewUrlParser: true, // For deprecation warnings
@@ -11,5 +11,5 @@ const options = {
 };
 mongoose
  .connect(url, options)
- .then(() => console.log('connected' ))
- .catch(err => console.log(`connection error: ${err}`));
+ .then(() => console.log('Database Connected !'))
+ .catch(err => console.log(`DB connection error: ${err}`));
