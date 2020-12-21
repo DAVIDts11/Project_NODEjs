@@ -14,7 +14,7 @@ async function asyncCall() {
     return prices
 };
 
-
+const b;
 binance.balance((error, balances) => {
     if (error) return console.error(error);
     // console.info("balances()", balances);
@@ -27,3 +27,6 @@ binance.balance((error, balances) => {
     }
     console.log(balance)
 });
+
+
+
