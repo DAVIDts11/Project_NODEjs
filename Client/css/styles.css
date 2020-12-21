@@ -1,0 +1,202 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "ubuntu";
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    background-color: #142658;
+    height: 60px;
+    width: 100%;
+    line-height: 60px;
+    vertical-align: middle;
+    box-shadow: 50px solid black;
+}
+
+#logo {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    margin-left: 25px;
+    height: 60px;
+    /* line-height: 60px; */
+    width: 50px;
+    text-decoration: none;
+    background: url(/images/logo.png) no-repeat;
+}
+
+#name {
+    color: whitesmoke;
+    font-size: 36px;
+    margin-left: 80px;
+}
+
+#user {
+    display: inline-block;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background: url(/images/user.png) no-repeat;
+    right: 0px;
+    margin-top: 15px;
+    margin-right: 10px;
+}
+
+.table {
+    display: table;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+/*----------------------- NAV -------------------------*/
+
+nav {
+    position: sticky;
+    width: 50px;
+    z-index: 2;
+    display: table-cell;
+    font-size: 18px;
+    background-color: white;
+    box-shadow: 20px solid black;
+    border-right: 5px solid grey;
+    overflow: hidden;
+    transition: 0.2s ease-in-out;
+}
+
+nav:hover {
+    width: 100px;
+    transition: 0.2s ease-in-out;
+}
+
+.nav-toggle {
+    /* display: block; */
+    position: fixed;
+    top: 0;
+    vertical-align: middle;
+    width: 100px;
+    text-align: center;
+    top: 50%;
+    overflow: hidden;
+}
+
+li {
+    list-style: none;
+    line-height: 30px;
+}
+
+.nav-link {
+    display: block;
+    opacity: 0.7;
+    text-decoration: none;
+    color: #202020;
+    transition: 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    opacity: 1;
+    transition: 0.2s ease-in-out;
+}
+
+#curr-page {
+    font-weight: 500;
+}
+
+.support {
+    position: absolute;
+    width: 100px;
+    bottom: 50%;
+}
+
+.wrapper {
+    width: 90%;
+    right: 0;
+    display: table;
+    margin: 0 auto;
+    margin-top: 15px;
+    height: 80%;
+}
+
+main {
+    display: table-cell;
+    background-color: gainsboro;
+}
+
+.double-section {
+    width: 100%;
+    min-width: 150px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+section {
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid gray;
+    padding: 15px;
+    padding-top: 8px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.small-section {
+    display: block;
+    min-width: 400px;
+    width: 40vw;
+    height: 100px;
+}
+
+.big-section {
+    margin-top: 20px;
+    height: 150px;
+}
+
+.section-header {
+    display: block;
+    font-size: 16px;
+    color: #606060;
+}
+
+.page-header {
+    margin: 0 !important;
+    display: block;
+    color: #202020;
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 15px;
+    font-weight: 200;
+    opacity: 0.5;
+    margin-left: 10px;
+}
+
+#stats-data {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 500;
+}
+
+.balance-btc {
+    display: block;
+    height: 100%;
+    font-weight: bold;
+    font-size: 36px;
+    height: 60px;
+    line-height: 60px;
+}
+
+footer {
+    margin-top: 50px;
+    display: block;
+    width: 100%;
+    height: 50px;
+    background-color: #202020;
+    color: aliceblue;
+}

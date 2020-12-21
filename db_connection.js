@@ -9,6 +9,7 @@ const options = {
  user: DB_USER,
  pass: DB_PASS
 };
+
 mongoose
  .connect(url, options)
  .then(() => console.log('Database Connected !'))
