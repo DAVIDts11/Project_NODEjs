@@ -77,7 +77,7 @@ function openSocket() {
 
         console.info(`${symbol},open ${ohlc["open"][498]},${ohlc["open"][499]}
     close ${ohlc["close"][498]}  ${ohlc["close"][499]}`);
-        isHammer(ohlc["open"][498],ohlc["high"][498],ohlc["close"][498],ohlc["low"][498]);
+        isHammer(ohlc["open"][498], ohlc["high"][498], ohlc["close"][498], ohlc["low"][498]);
         console.info(symbol + " last price: " + last);
 
     })
