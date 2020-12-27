@@ -1,5 +1,9 @@
 const express = require("express");
 const { StrategyRouter } = require("./routers/strategyRouter");
+const { OrdersRouter } = require("./routers/ordersRouter");
+const { PortfolioRouter } = require("./routers/portfolioRouter");
+
+
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -8,6 +12,8 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/strategy", StrategyRouter);
+app.use("/api/orders", OrdersRouter);
+app.use("/api/portfolio", PortfolioRouter);
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
