@@ -12,8 +12,12 @@ async function getAllBalances() {
     return await binance.balance();
 };
 
-async function getPrices() {
+async function getAllPrices() {
     return await binance.prices();
+};
+
+async function getAllOpenOrders() {
+    return await binance.openOrders();
 };
 
 function getRelevantBalance(balances) {
@@ -28,18 +32,26 @@ function getRelevantBalance(balances) {
 };
 
 
-(async () => {
-    const prices = await getPrices();
-    for (pair in prices) {
-        if (pair.endsWith('BTC')) { }
-        // console.log(pair);
-    }
-})();
+// (async () => {
+//     const prices = await getAllPrices();
+//     for (pair in prices) {
+//         if (pair.endsWith('BTC')) {
+//             console.log(pair);
+//         }
 
+//     }
+// })();
 
+//Getting All Balances:
 (async () => {
     const balances = await getAllBalances();
     console.log(getRelevantBalance(balances));
+})();
+
+//Getting All Open:
+(async () => {
+    const openOrders = await getAllOpenOrders();
+    console.log(openOrders);
 })();
 
 // // Intervals: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
@@ -52,10 +64,10 @@ function getRelevantBalance(balances) {
 
 function isHammer(open, high, close, low) {
     const hammer = require('technicalindicators').bullishinvertedhammerstick;
-    console.log(`           open = ${Number(open)} 
-                 close = ${Number(close)}
-                 high = ${Number(high)}
-                 low = ${Number(low)}`);
+    console.log(`   open = ${Number(open)} 
+                    close = ${Number(close)}
+                    high = ${Number(high)}
+                    low = ${Number(low)}`);
     let singleInput = {
         open: [Number(open)],
         high: [Number(high)],
@@ -82,5 +94,5 @@ function openSocket() {
 
     })
 };
-openSocket();
-console.log("Hello David ");
+// openSocket();
+// console.log("Hello David ");
