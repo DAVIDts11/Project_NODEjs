@@ -22,7 +22,7 @@ header {
     width: 100%;
     line-height: 60px;
     vertical-align: middle;
-    box-shadow: 50px solid black;
+    box-shadow: 0px 1px 7px black;
 }
 
 #logo {
@@ -67,32 +67,27 @@ header {
 nav {
     position: sticky;
     width: 50px;
+    box-shadow: 1px 0px 5px black;
     z-index: 2;
     display: table-cell;
     font-size: 18px;
     background-color: white;
-    box-shadow: 20px solid black;
-    border-right: 5px solid grey;
+    /* border-right: 5px solid grey; */
     overflow: hidden;
     transition: 0.2s ease-in-out;
 }
 
 nav:hover {
     width: 100px;
-    transition: 0.2s ease-in-out;
+    transition: 0.3s ease-in-out;
+    
 }
 
 .nav-buttons {
     position: fixed;
-    height: 200px;
-    line-height: 200px;
-    top: 0;
-    vertical-align: middle;
     width: 50px;
     text-align: center;
-    top: 48%; /*almost 50% cause of header*/
-    overflow: hidden;
-    border: 1px solid gray;
+    top: 40%; /*almost 50% cause of header*/
 }
 
 li {
@@ -105,22 +100,56 @@ li {
     opacity: 0.7;
     text-decoration: none;
     color: #202020;
-    transition: 0.2s ease-in-out;
+    
 }
 
-ul{
-    height: 100px;
-    line-height: 100px;
-    vertical-align: middle;
+
+
+nav li{
+    overflow: hidden;
+    width: 50px;
+    margin: 20px 0;
+    transition: width 0.5s;
 }
 
-.nav-link:hover {
-    opacity: 1;
-    transition: 0.2s ease-in-out;
+nav:hover li{
+    width: 100px;
+    transform: rotate(-10deg);
 }
+
 
 #curr-page {
-    font-weight: 500;
+    opacity: 1;
+}
+
+#curr-page b{
+    font-weight: 600;
+}
+
+nav b {
+    display: none;
+    opacity: 0;
+    font-weight: 400;
+}
+
+nav a{
+    width: 100%;
+    transition: width 0.5s;
+    text-decoration: none;
+}
+
+nav:hover a{
+    width: 100px;
+}
+
+nav:hover i {
+    display: none;
+}
+
+nav:hover b {
+    display: block;
+    opacity: 1;
+    
 }
 
 .support {
@@ -176,18 +205,17 @@ section {
     display: block;
     font-size: 16px;
     color: #606060;
+    
 }
 
 .page-header {
-    margin: 10px !important;
+    margin: 15px 0;
     display: block;
     color: #202020;
     font-size: 24px;
     line-height: 30px;
-    margin-bottom: 15px;
     font-weight: 200;
     opacity: 0.5;
-    margin-left: 10px;
 }
 
 #stats-data {
@@ -214,9 +242,10 @@ footer {
     margin-top: 25px;
     position: fixed;
     bottom: 0;
-    height: 60px;  
+    height: 20px;  
     width: 100%;
     background-color: #202020;
-    color: aliceblue;
+    color:#606060;
+    text-align: center;
 }
 
