@@ -1,4 +1,5 @@
 const express = require("express");
+const { StrategyRouter } = require("./routers/strategyRouter");
 
 const app = express();
 const port = process.env.PORT || 8080;

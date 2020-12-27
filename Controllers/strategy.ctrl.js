@@ -1,4 +1,4 @@
-const Schedule = require('../Models/strategy');
+const Strategy = require('../Models/strategy');
 
 
 
@@ -21,21 +21,20 @@ exports.strategyController = {
 
     // },
 
-    addStrategy(req, res) {
-        const newSchedule = new Schedule(req.body);
-        const result = newSchedule.save()
-            .then(result => {
-                if (result) {
-                    res.json(result)
+    addStrategy(req, res) {} } 
+        // const newSchedule = new Schedule(req.body);
+        // const result = newSchedule.save()
+        //     .then(result => {
+        //         if (result) {
+        //             res.json(result)
         
-                }
-                else {
-                    res.status(404).send("Error saving a Schedule");
-                }
-            })
-            .catch(err => console.log('Error saving the data from db: ${err}'))
+        //         }
+        //         else {
+        //             res.status(404).send("Error saving a Schedule");
+        //         }
+        //     })
+        //     .catch(err => console.log('Error saving the data from db: ${err}'))
         
-    },
 
     // updateStrategy(req, res) {
     //     Schedule.updateOne({ id: req.params.id }, {
@@ -52,4 +51,4 @@ exports.strategyController = {
     //         .then(docs => { res.json(docs) })
     //         .catch(err => console.log(`Error deleting schedule from db : ${req.params.id}`));
     // }
-}
+

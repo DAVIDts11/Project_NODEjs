@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const {strategyController}= require('../conrollers/strategy.ctrl');
+const {strategyController}= require('../Controllers/strategy.ctrl');
 
 const StrategyRouter= new Router;
 
