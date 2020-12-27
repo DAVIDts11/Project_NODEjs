@@ -21,21 +21,30 @@ exports.strategyController = {
 
     // },
 
-    addStrategy(req, res) {} } 
-        // const newSchedule = new Schedule(req.body);
-        // const result = newSchedule.save()
-        //     .then(result => {
-        //         if (result) {
-        //             res.json(result)
+    addStrategy(req, res) { 
+        const newSchedule = new Strategy(
+            {  "strategy_id":  req.body.id  }
+            // date_beging: { type: Date , default: Date.now},
+            // currency: { type: String, required:true},
+            // amount: { type: Number , required:true},
+            // take_profit: { type: Number, required:true},
+            // stop_loss: { type: Number, required:true},
+            
+            );
+        const result = newSchedule.save()
+            .then(result => {
+                if (result) {
+                    res.json(result)
         
-        //         }
-        //         else {
-        //             res.status(404).send("Error saving a Schedule");
-        //         }
-        //     })
-        //     .catch(err => console.log('Error saving the data from db: ${err}'))
+                }
+                else {
+                    res.status(404).send("Error saving a Schedule");
+                }
+            })
+            .catch(err => console.log('Error saving the data from db: ${err}'))
+       
         
-
+    } }
     // updateStrategy(req, res) {
     //     Schedule.updateOne({ id: req.params.id }, {
     //         userId: req.body.userId,
