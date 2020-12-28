@@ -3,21 +3,15 @@
     padding: 0;
 }
 
-html {
-    min-height: 100%;
-  }
-
-
 body {
     font-family: "ubuntu";
-    /* height: 100vh; */
 }
 
 header {
     position: sticky;
     top: 0;
     z-index: 99;
-    background-color: #142658;
+    background-color: #1c316d;
     height: 60px;
     line-height: 60px;
     vertical-align: middle;
@@ -56,35 +50,36 @@ header {
 .table {
     display: table;
     width: 100%;
-    margin: 0;
-    /* padding: 0; */
+    background-color: gainsboro;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /*----------------------- NAV -------------------------*/
 
 nav {
     position: sticky;
-    width: 50px;
+    width: 40px;
+    min-width: 40px;
     box-shadow: 0px 0px 4px #666;
     z-index: 2;
     display: table-cell;
     font-size: 18px;
     background-color: white;
-    /* border-right: 5px solid grey; */
-    overflow: hidden;
     transition: 0.3s ease-in-out;
 }
 
 nav:hover {
-    width: 100px;
-    transition: 0.3s ease-in-out;
+    width: 90px;
+    transition: 0.2s ease-in-out;
 }
 
 .nav-buttons {
     position: fixed;
-    width: 50px;
+    width: 40px;
     text-align: center;
-    top: 40%; /*almost 50% cause of header*/
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 li {
@@ -94,50 +89,69 @@ li {
 
 .nav-link {
     display: block;
-    opacity: 0.7;
+    color: #888;
+}
+
+nav a {
+    height: 50px;
+    line-height: 50px;
+}
+
+nav a:hover {
+    background-color: #ddd;
     text-decoration: none;
-    color: #202020;
-    
 }
 
-
-
-nav li{
+nav li {
     overflow: hidden;
-    width: 50px;
-    margin: 20px 0;
-    transition: width 0.5s;
+    width: 40px;
+    margin: 10px 0;
+    transition: width 0.3s;
 }
 
-nav:hover ul{
-    width: 100px;
+nav:hover ul {
+    width: 90px;
 }
-nav:hover li{
-    width: 100px;
+
+nav:hover li {
+    width: 90px;
 }
 
 #curr-page {
-    opacity: 1;
+    color: #111;
 }
 
-#curr-page b{
+#curr-page li {
+    height: 30px;
+    width: 80%;
+}
+
+#curr-page b {
     font-weight: 600;
 }
 
 nav b {
     display: none;
-    opacity: 0;
     font-weight: 400;
+    font-size: 16px;
 }
 
-nav a{
-    width: 100%;
+nav a {
     transition: width 0.5s;
     text-decoration: none;
 }
 
-nav:hover a{
-    width: 100px;
+nav:hover a {
+    width: 90px;
+}
+
+#loading {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
 }
 
 nav:hover i {
@@ -147,7 +161,6 @@ nav:hover i {
 nav:hover b {
     display: block;
     opacity: 1;
-    
 }
 
 .support {
@@ -159,20 +172,37 @@ nav:hover b {
 .wrapper {
     width: 90%;
     margin: 0 auto;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 main {
-    display: table-cell;
-    height: 100vh;
-    background-color: gainsboro;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 95vh;
 }
+
+main::-webkit-scrollbar {
+    width: 20px;
+}
+
+main::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+main::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Handle on hover */
 
 .double-section {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    
 }
 
 section {
@@ -182,13 +212,15 @@ section {
     /* border: 1px solid gray; */
     padding: 15px;
     padding-top: 5px;
+    box-shadow: 0px 2px 4px 0px #ccc;
 }
 
 .small-section {
     display: block;
-    min-width: 400px;
+    min-width: 350px;
     min-height: 150px;
-    flex-grow: 2;
+    flex-grow: 1;
+    margin-top: 10px;
 }
 
 .big-section {
@@ -196,18 +228,20 @@ section {
     height: 150px;
 }
 
-#orders{
+#orders {
     margin-bottom: 20px;
 }
+
 .section-header {
     display: block;
     font-size: 14px;
     color: #aaaaaa;
     height: 20px;
-    box-shadow: 0px 2px 2px -2px #ccc;
+    box-shadow: 0px 2px 2px -2px #aaa;
 }
 
 .page-header {
+    margin: 0 !;
     margin: 15px 0;
     display: block;
     color: #202020;
@@ -222,8 +256,8 @@ section {
     margin-top: 20px;
     display: flex;
     justify-content: space-evenly;
-    font-weight:300;
-    font-size: 20px;
+    font-weight: 300;
+    font-size: 18px;
 }
 
 .balance-btc {
@@ -235,20 +269,42 @@ section {
     transform: translateY(-50%);
 }
 
-.balance-usd{
+.balance-usd {
     position: absolute;
     bottom: 10px;
     font-weight: 500;
 }
 
 footer {
-    margin-top: 25px;
+    /* margin-top: 25px; */
     position: fixed;
     bottom: 0;
-    height: 20px;  
+    height: 20px;
     width: 100%;
     background-color: #202020;
-    color:#606060;
+    color: #606060;
     text-align: center;
 }
 
+/* PAGE 2 */
+
+.strategy {
+    display: block;
+    border: 1px solid green;
+    border-radius: 10px;
+    width: 300px;
+    height: 100px;
+    margin: 30px auto;
+    margin-bottom: 15px;
+}
+
+#all-strategies {
+    height: auto;
+}
+
+#strategies-container {
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -47,15 +47,19 @@
         </nav>
 
 
-        <main>
+        <main valign="top">
             <div class="wrapper">
                 <span class="page-header">DASHBOARD</span>
                 <div class="row double-section">
                     <div class="col-md-6">
                         <section class="small-section">
                             <span class="section-header">Currenger Balance</span>
-                            <span class="balance-btc">----------------</span>
-                            <span class="balance-usd">≈ 0 $</span>
+                            <div id="loading">
+                                <p><img src="images/loader_small.gif" /></p>
+                            </div>
+                            <span class="balance-btc">
+                            </span>
+                            <span class="balance-usd"></span>
                         </section>
                     </div>
                     <div class="col-md-6">
@@ -76,6 +80,7 @@
                 <section class="big-section" id="orders">
                     <span class="section-header">Open Orders</span>
                 </section>
+                
             </div> <!-- /wrapper -->
 
             <footer>
