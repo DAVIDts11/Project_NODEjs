@@ -72,7 +72,7 @@ async function calculateBtcValue(balance) {
     $(".balance-usd")
     .empty()
     .append('≈ ' + usd_val.toLocaleString('en-US', {maximumFractionDigits:2}))
-    .append('&nbsp;<i class="fas fa-dollar-sign" style="color:#008800"></i>')
+    .append('&nbsp;<i class="fas fa-dollar-sign fa-sm" style="color:#008800"></i>')
     .hide()
     .show("fast");
 }
