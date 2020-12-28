@@ -39,6 +39,12 @@ exports.portfolioController = {
 
 
 
+    },
+    getPrices(req,res){
+        async function getAllPrices() {
+            res.send( await binance.prices());
+        };
+
     }
     // getStrategies(req, res) {
     //     const id = req.params.id
