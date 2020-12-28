@@ -1,5 +1,6 @@
 $(document).ready(function () {
     insertBalancesValues();
+    setInterval(function () {insertBalancesValues()},30000);
     // operationsListeners();
 });
 
@@ -9,8 +10,9 @@ function insertBalancesValues() {
         url: 'http://localhost:8080/api/portfolio',
         type: 'GET',
         success: function (result) {
-            $('.balance-btc').empty();
+            
             calculateBtcValue(result);
+           
             
         },
         error: function () {
@@ -27,8 +29,10 @@ function getAllPrices(callback) {
 }
 
 async function calculateBtcValue(balance) {
+    
     let result = 0, price;
     const prices = await getAllPrices();
+    
     for (coin_name in balance) {
         console.log("checking " + coin_name);
         if (coin_name === 'BTC')
@@ -49,7 +53,8 @@ async function calculateBtcValue(balance) {
         console.log(result);
     }
     console.log("total = " + result);
-    $('.balance-btc').text(result.toFixed(8))
+    $('.balance-btc').text(result.toFixed(8));
+    $('.balance-btc').append('&nbsp;<i class="fab fa-btc"></i>').hide().show('normal');
 }
 
 function Convert(coin_name, value) {

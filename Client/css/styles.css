@@ -19,10 +19,8 @@ header {
     z-index: 99;
     background-color: #142658;
     height: 60px;
-    width: 100%;
     line-height: 60px;
     vertical-align: middle;
-    box-shadow: 0px 1px 7px black;
 }
 
 #logo {
@@ -67,20 +65,19 @@ header {
 nav {
     position: sticky;
     width: 50px;
-    box-shadow: 1px 0px 5px black;
+    box-shadow: 0px 0px 4px #666;
     z-index: 2;
     display: table-cell;
     font-size: 18px;
     background-color: white;
     /* border-right: 5px solid grey; */
     overflow: hidden;
-    transition: 0.2s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 nav:hover {
     width: 100px;
     transition: 0.3s ease-in-out;
-    
 }
 
 .nav-buttons {
@@ -112,11 +109,12 @@ nav li{
     transition: width 0.5s;
 }
 
+nav:hover ul{
+    width: 100px;
+}
 nav:hover li{
     width: 100px;
-    transform: rotate(-10deg);
 }
-
 
 #curr-page {
     opacity: 1;
@@ -181,9 +179,9 @@ section {
     width: 100%;
     border-radius: 10px;
     background-color: white;
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
     padding: 15px;
-    padding-top: 8px;
+    padding-top: 5px;
 }
 
 .small-section {
@@ -203,9 +201,10 @@ section {
 }
 .section-header {
     display: block;
-    font-size: 16px;
-    color: #606060;
-    
+    font-size: 14px;
+    color: #aaaaaa;
+    height: 20px;
+    box-shadow: 0px 2px 2px -2px #ccc;
 }
 
 .page-header {
@@ -216,26 +215,30 @@ section {
     line-height: 30px;
     font-weight: 200;
     opacity: 0.5;
+    border: none !important;
 }
 
 #stats-data {
-    margin-top: 15px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-evenly;
-    font-weight: 500;
+    font-weight:300;
+    font-size: 20px;
 }
 
 .balance-btc {
-    display: block;
-    height: 100%;
+    margin: auto;
+    position: absolute;
     font-weight: bold;
     font-size: 36px;
-    height: 60px;
-    line-height: 60px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .balance-usd{
-    text-decoration: none;
+    position: absolute;
+    bottom: 10px;
+    font-weight: 500;
 }
 
 footer {
