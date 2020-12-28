@@ -20,6 +20,7 @@ async function getAllOpenOrders() {
     return await binance.openOrders();
 };
 
+
 // function getRelevantBalance(balances) {
 //     const balance = {};
 //     for (asset in balances) {
@@ -54,10 +55,10 @@ async function getAllOpenOrders() {
 
 
 //Getting All Open:
-(async () => {
-    const openOrders = await getAllOpenOrders();
-    console.log(openOrders);
-})();
+// (async () => {
+//     const openOrders = await getAllOpenOrders();
+//     console.log(openOrders);
+// })();
 
 // // Intervals: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
 // binance.candlesticks("ETHBTC", "5m", (error, ticks, symbol) => {
