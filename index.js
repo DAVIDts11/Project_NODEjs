@@ -24,6 +24,7 @@ Socket();
 //     return await binance.openOrders();
 // };
 
+
 // function getRelevantBalance(balances) {
 //     const balance = {};
 //     for (asset in balances) {

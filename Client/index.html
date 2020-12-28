@@ -11,9 +11,8 @@
     <script src="https://kit.fontawesome.com/ee3e8b37d4.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Ubuntu:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css\styles.css">
@@ -35,7 +34,7 @@
                             <b>Dashboard</b>
                         </a>
                     </li>
-                    <li> <a class="nav-link" href="#">
+                    <li> <a class="nav-link" href="strategies.html">
                             <i class="fas fa-lightbulb fa-lg"></i> <!-- strategies icon -->
                             <b>Strategies</b>
                         </a> </li>
@@ -48,15 +47,19 @@
         </nav>
 
 
-        <main>
+        <main valign="top">
             <div class="wrapper">
                 <span class="page-header">DASHBOARD</span>
                 <div class="row double-section">
                     <div class="col-md-6">
                         <section class="small-section">
                             <span class="section-header">Currenger Balance</span>
-                            <span class="balance-btc">0.000000 <i class="fab fa-btc"></i></span>
-                            <span class="balance-usd">= 0 $</span>
+                            <div id="loading">
+                                <p><img src="images/loader_small.gif" /></p>
+                            </div>
+                            <span class="balance-btc">
+                            </span>
+                            <span class="balance-usd"></span>
                         </section>
                     </div>
                     <div class="col-md-6">
@@ -77,6 +80,7 @@
                 <section class="big-section" id="orders">
                     <span class="section-header">Open Orders</span>
                 </section>
+                
             </div> <!-- /wrapper -->
 
             <footer>

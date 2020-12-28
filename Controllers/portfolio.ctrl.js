@@ -1,19 +1,11 @@
 
 const { binance } = require('../binance_connection');
 
-
-
 exports.portfolioController = {
     getPortfolio(req,res){
-
-
-
-
-
         async function getAllBalances() {
             return await binance.balance();
         };
-
 
         function getRelevantBalance(balances) {
             const balance = {};
@@ -26,18 +18,23 @@ exports.portfolioController = {
             return balance;
         };
 
-
-
-
         (async () => {
             const balances = await getAllBalances();
-            let myBalance =getRelevantBalance(balances)
-            console.log(myBalance);
-            res.json(myBalance)
+            let myBalance =getRelevantBalance(balances);
+            res.send(myBalance);
         })();
 
+    },
 
 
+    getPrices(req,res){
+        async function getAllPrices() {
+            return await binance.prices();
+        };
+        (async () => {
+            const prices = await getAllPrices();
+            res.send(prices);
+        })();
 
     },
     getPrices(req,res){
@@ -46,6 +43,7 @@ exports.portfolioController = {
         };
 
     }
+
     // getStrategies(req, res) {
     //     const id = req.params.id
     //     Schedule.find({ id: id }).
