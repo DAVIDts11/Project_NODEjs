@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const  orders_strategy = new Schema({
     strategy_id: { type: Number, required:true},
-    user_id: {type : String , required:true}
+    order_id: {type : Number , required:true}
 }, {collection: 'orders_strategies'});
 
 const Order_Strategy = model('Order_Strategy', orders_strategy );

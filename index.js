@@ -11,10 +11,24 @@ const {Socket} = require("./socket");
 Socket();
 
 
+//lastest price:
+// let pair  = 'BNBBTC';
+// binance.prices(pair, (error, ticker) => {
+//     console.info("Price of BNB: ", ticker[pair]);
+//   });
+
+
+
+// binance.bookTickers('BNBBTC', (error, ticker) => {
+//     console.info( ticker["bidPrice"]);
+//   });
+
 
 // async function getAllBalances() {
 //     return await binance.balance();
 // };
+
+
 
 // async function getAllPrices() {
 //     return await binance.prices();
@@ -53,7 +67,8 @@ Socket();
 //Getting All Balances:
 // (async () => {
 //     const balances = await getAllBalances();
-//     console.log(getRelevantBalance(balances));
+//     console.log(balances);
+//     //console.log(getRelevantBalance(balances));
 // })();
 
 

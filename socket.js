@@ -3,7 +3,7 @@ const {isHammer} = require("./type_strategies")
 
 
 exports.Socket = function openSocket() {
-    binance.websockets.chart("ETHBTC", "1h", (symbol, interval, chart) => {
+    binance.websockets.chart("IOTABTC", "5m", (symbol, interval, chart) => {
         let tick = binance.last(chart);
         const last = chart[tick].close;
         //console.info(chart);
