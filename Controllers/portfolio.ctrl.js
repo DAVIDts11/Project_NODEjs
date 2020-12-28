@@ -1,4 +1,3 @@
-
 const { binance } = require('../binance_connection');
 
 exports.portfolioController = {
@@ -25,6 +24,7 @@ exports.portfolioController = {
         })();
 
     },
+
 
 
     getPrices(req,res){
