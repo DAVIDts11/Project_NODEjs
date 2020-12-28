@@ -1,8 +1,40 @@
 const Strategy = require('../Models/strategy');
 
+const {Strategy_Result} = require("../type_strategies");
+
 
 
 exports.strategyController = {
+    addStrategy(req, res) {
+        const newStrategy = new Strategy(
+            {
+                "strategy_id": req.body.strategy_id,
+                "user_id":req.body.user_id,
+                "strategy_type": req.body.strategy_type,
+                "currency": req.body.currency,
+                "amount": req.body.amount,
+                "take_profit": req.body.take_profit,
+                "stop_loss": req.body.stop_loss
+            }
+        );
+        const result = newStrategy.save()
+            .then(result => {
+                if (result) {
+                    console.log(Strategy_Result[req.body.strategy_type]);
+                    res.json(result);
+                }
+                else {
+                    res.status(404).send("Error saving a Schedule");
+                }
+            })
+            .catch(err => console.log('Error saving the data from db: ${err}'))
+
+
+
+    }
+}
+
+
     // getStrategies(req, res) {
     //     const id = req.params.id
     //     Schedule.find({ id: id }).
@@ -21,30 +53,7 @@ exports.strategyController = {
 
     // },
 
-    addStrategy(req, res) { 
-        const newSchedule = new Strategy(
-            {  "strategy_id":  req.body.id  }
-            // date_beging: { type: Date , default: Date.now},
-            // currency: { type: String, required:true},
-            // amount: { type: Number , required:true},
-            // take_profit: { type: Number, required:true},
-            // stop_loss: { type: Number, required:true},
-            
-            );
-        const result = newSchedule.save()
-            .then(result => {
-                if (result) {
-                    res.json(result)
-        
-                }
-                else {
-                    res.status(404).send("Error saving a Schedule");
-                }
-            })
-            .catch(err => console.log('Error saving the data from db: ${err}'))
-       
-        
-    } }
+
     // updateStrategy(req, res) {
     //     Schedule.updateOne({ id: req.params.id }, {
     //         userId: req.body.userId,
