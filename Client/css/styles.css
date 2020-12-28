@@ -178,7 +178,8 @@ nav:hover b {
 main {
     display: flex !important;
     flex-direction: column !important;
-    height: 95vh;
+    min-height: 100vh;
+    height :auto;
 }
 
 main::-webkit-scrollbar {

@@ -1,3 +1,4 @@
+
 const { binance } = require('../binance_connection');
 
 exports.portfolioController = {
@@ -26,7 +27,6 @@ exports.portfolioController = {
     },
 
 
-
     getPrices(req,res){
         async function getAllPrices() {
             return await binance.prices();
@@ -35,6 +35,12 @@ exports.portfolioController = {
             const prices = await getAllPrices();
             res.send(prices);
         })();
+
+    },
+    getPrices(req,res){
+        async function getAllPrices() {
+            res.send( await binance.prices());
+        };
 
     }
 
