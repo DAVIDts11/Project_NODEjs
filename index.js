@@ -6,9 +6,7 @@ require('./binance_connection');
 
 const { binance } = require('./binance_connection');
 require("./type_strategies");
-const {Socket} = require("./socket");
 
-Socket();
 
 
 //lastest price:

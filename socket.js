@@ -2,10 +2,11 @@ const { binance } = require('./binance_connection');
 const {isHammer} = require("./type_strategies")
 
 
-exports.Socket = function openSocket() {
-    binance.websockets.chart("IOTABTC", "5m", (symbol, interval, chart) => {
+let last;
+exports.Socket = function openSocket(currencyStr) {
+    binance.websockets.chart(currencyStr, "5m", (symbol, interval, chart) => {
         let tick = binance.last(chart);
-        const last = chart[tick].close;
+        last = chart[tick].close;
         //console.info(chart);
         // Optionally convert 'chart' object to array:
         let ohlc = binance.ohlc(chart);
@@ -18,3 +19,4 @@ exports.Socket = function openSocket() {
     })
 };
 
+exports.last =last;
