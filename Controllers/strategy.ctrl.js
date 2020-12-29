@@ -6,12 +6,11 @@ const { binance } = require('../binance_connection');
 const { Strategy_Result } = require("../type_strategies");
 
 
-
-function runStrategy(strategyInfo) {
+function runStrategy(strategyInfo,count) {
     let strategy_status;
-
+    console.log(count);
     (async () => {
-        await Strategy.find({ strategy_id: strategyInfo["strategy_id"] }).
+        await Strategy.find({ strategy_id: count}).      //strategyInfo["strategy_id"]
             then(docs => { strategy_status = docs[0]["status"] })
             .catch(err => console.log('Erorr getting the data from db: ${err}'));
         console.log(strategy_status);
@@ -23,7 +22,7 @@ function runStrategy(strategyInfo) {
                     console.info("Market Buy response", response);
                     console.info("order id: " + response.orderId);
                     const order_str = new Order_Strategy({
-                        "strategy_id": strategyInfo["strategy_id"],
+                        "strategy_id": count,                            //strategyInfo["strategy_id"]
                         "order_id": response.orderId
                     })
 
@@ -34,7 +33,7 @@ function runStrategy(strategyInfo) {
                                 console.log("order has been seved");
 
                                 //update strategy status:         
-                                Strategy.updateOne({ strategy_id: strategyInfo["strategy_id"] }, {
+                                Strategy.updateOne({ strategy_id: count }, {
                                     status: "waiting_to_sell"
                                 })
                                     .then(docs => { res.json(docs) })
@@ -45,7 +44,7 @@ function runStrategy(strategyInfo) {
                                 res.status(404).send("Error saving a order_strategy");
                             }
                         })
-                        .catch(err => console.log('Error saving the data from db: ${err}'))
+                        .catch(err => console.log(`Error saving the data from db order_str: ${err}`))
 
                     //set stop loss    
 
@@ -86,53 +85,57 @@ exports.strategyController = {
             .then(result => {
                 if (result) {
                     // console.log(Strategy_Result[req.body.strategy_type]);
-                    setInterval(runStrategy, 2000, strategyInfo);
+                    
+                    Strategy.nextCount(function(err, count) {
+                    setInterval(runStrategy, 2000, strategyInfo,count-1);
+                });
                     res.json(result);
                 }
                 else {
                     res.status(404).send("Error saving a Schedule");
                 }
             })
-            .catch(err => console.log('Error saving the data from db: ${err}'))
+            .catch(err => console.log(`Error saving the data from db: ${err}`))
 
 
 
+    },
+
+
+
+    getStrategies(req, res) {
+        let filter= { };
+        filter.user_id = req.query.user_id ;
+        if('currency' in req.query)
+            filter.currency=req.query.currency;
+        if('status' in req.query)
+            filter.status= req.query.status;       
+        Strategy.find(filter).
+            then(docs => { res.json(docs) })
+            .catch(err => console.log(`Erorr getting the data from db: ${err}`));
+    },
+
+    getStrategy(req, res) {
+        Schedule.find( {strategy_id :req.params.id})
+            .then(docs => { res.json(docs) })
+            .catch(err => console.log(`Error getting the data from db: ${err}`));
+
+    },
+
+
+    updateStrategy(req, res) {
+        Strategy.updateOne({ strategy_id : req.params.id }, {
+            amount: req.body.amount,
+            take_profit: req.body.take_profit,
+            stop_loss: req.body.stop_loss
+        })
+            .then(docs => { res.json(docs) })
+            .catch(err => console.log(`Error update schedule from db : ${req.params.id}`));
+    },
+
+    deleteStrategy(req, res) {
+        Strategy.deleteOne( {strategy_id :req.params.id})
+            .then(docs => { res.json(docs) })
+            .catch(err => console.log(`Error deleting strategy from db : ${req.params.id}`));
     }
 }
-
-
-    // getStrategies(req, res) {
-    //     const id = req.params.id
-    //     Schedule.find({ id: id }).
-    //         then(docs => { res.json(docs) })
-    //         .catch(err => console.log('Erorr getting the data from db: ${err}'));
-    // },
-    // getStrategy(req, res) {
-    //     let filter= { };
-    //     if('date' in req.query)
-    //         filter.date=req.query.date;
-    //     if('time' in req.query)
-    //         filter.time= req.query.time;
-    //     Schedule.find(filter)
-    //         .then(docs => { res.json(docs) })
-    //         .catch(err => console.log('Error getting the data from db: ${err}'));
-
-    // },
-
-
-    // updateStrategy(req, res) {
-    //     Schedule.updateOne({ id: req.params.id }, {
-    //         userId: req.body.userId,
-    //         date: req.body.date,
-    //         time: req.body.time,
-    //         game: req.body.game
-    //     })
-    //         .then(docs => { res.json(docs) })
-    //         .catch(err => console.log(`Error update schedule from db : ${req.params.id}`));
-    // },
-    // deleteStrategy(req, res) {
-    //     Schedule.deleteOne({ id: req.params.id })
-    //         .then(docs => { res.json(docs) })
-    //         .catch(err => console.log(`Error deleting schedule from db : ${req.params.id}`));
-    // }
-

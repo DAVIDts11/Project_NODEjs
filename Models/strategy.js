@@ -1,7 +1,26 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose'),
+autoIncrement = require('mongoose-auto-increment');
+
+const consts = require('../constants' );
+const { DB_HOST, DB_USER, DB_PASS} = consts.DB_CONSTANTS;
+const conectionString = DB_HOST;
+
+const options = {
+    useNewUrlParser: true, // For deprecation warnings
+    useCreateIndex: true, // For deprecation warnings
+    useUnifiedTopology: true, // For deprecation warnings
+    useFindAndModify :false,
+    user: DB_USER,
+    pass: DB_PASS
+   };
+
+const connection = mongoose.createConnection(conectionString,options);
+ 
+autoIncrement.initialize(connection);
 
 const  strategy = new Schema({
-    strategy_id: { type: Number, required:true},
+    strategy_id: {type: Number, default: 0, unique: true},
     user_id: {type : Number },
     strategy_type : {type: String, required:true},
     status:{type:String, default:"waiting_to_buy"},
@@ -11,6 +30,15 @@ const  strategy = new Schema({
     take_profit: { type: Number},
     stop_loss: { type: Number},
 }, {collection: 'strategies'});
+
+
+strategy.plugin(autoIncrement.plugin, {
+    model: 'Strategy',
+    field: 'strategy_id',
+    startAt: 1,
+    incrementBy: 1
+  });
+
 
 const Strategy = model('Strategy', strategy );
 module.exports = Strategy;

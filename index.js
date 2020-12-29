@@ -24,31 +24,31 @@ Socket();
 //   });
 
 
-// async function getAllBalances() {
-//     return await binance.balance();
-// };
+async function getAllBalances() {
+    return await binance.balance();
+};
 
 
 
-// async function getAllPrices() {
-//     return await binance.prices();
-// };
+async function getAllPrices() {
+    return await binance.prices();
+};
 
-// async function getAllOpenOrders() {
-//     return await binance.openOrders();
-// };
+async function getAllOpenOrders() {
+    return await binance.openOrders();
+};
 
 
-// function getRelevantBalance(balances) {
-//     const balance = {};
-//     for (asset in balances) {
-//         if (balances[asset]['available'] > 0 || balances[asset]['onOrder'] > 0) {
-//             let num = Number(balances[asset]['available']) + Number(balances[asset]['onOrder']);
-//             balance[asset] = num;
-//         }
-//     }
-//     return balance;
-// };
+function getRelevantBalance(balances) {
+    const balance = {};
+    for (asset in balances) {
+        if (balances[asset]['available'] > 0 || balances[asset]['onOrder'] > 0) {
+            let num = Number(balances[asset]['available']) + Number(balances[asset]['onOrder']);
+            balance[asset] = num;
+        }
+    }
+    return balance;
+};
 
 
 // (async () => {
@@ -65,19 +65,37 @@ Socket();
 
 
 //Getting All Balances:
-// (async () => {
-//     const balances = await getAllBalances();
-//     console.log(balances);
-//     //console.log(getRelevantBalance(balances));
-// })();
+(async () => {
+    const balances = await getAllBalances();
+    //console.log(balances);
+    console.log(getRelevantBalance(balances));
+})();
+
+let quantity = 37.962;
+// binance.sell("IOTABTC", quantity, price, {type:'LIMIT'}, (error, response) => {
+//   console.info("Limit Buy response", response);
+//   console.info("order id: " + response.orderId);
+// });
+let type = "STOP_LOSS";
+
+let price = 0.00001099;
+let stopPrice = 0.00001086;
+// binance.sell("IOTABTC", quantity, price, {stopPrice: stopPrice, type: type});
+
+//binance.sell("IOTABTC", quantity, price); //.then(console.log("kjak1")).catch(console.log("kjak2"));
+//binance.marketSell("IOTABTC", quantity);
 
 
 
+// type = "TAKE_PROFIT";
+// price = 0.00001105;
+// stopPrice = 0.00001108;
+// binance.sell("IOTABTC", quantity, price, {stopPrice: stopPrice, type: type});
 //Getting All Open:
-// (async () => {
-//     const openOrders = await getAllOpenOrders();
-//     console.log(openOrders);
-// })();
+(async () => {
+    const openOrders = await getAllOpenOrders();
+    console.log(openOrders);
+})();
 
 // // Intervals: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
 // binance.candlesticks("ETHBTC", "5m", (error, ticks, symbol) => {
@@ -86,42 +104,3 @@ Socket();
 //     let [time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored] = last_tick;
 //     console.info(symbol+" last close: "+close);
 //   }, {limit: 1, endTime: Date.now()});
-
-// function isHammer(open, high, close, low) {
-//     const hammer = require('technicalindicators').bullishinvertedhammerstick;
-//     console.log(`   open = ${Number(open)} 
-//                     close = ${Number(close)}
-//                     high = ${Number(high)}
-//                     low = ${Number(low)}`);
-//     let singleInput = {
-//         open: [Number(open)],
-//         high: [Number(high)],
-//         close: [Number(close)],
-//         low: [Number(low)],
-//     }
-
-//     const result = hammer(singleInput) ? 'yes' : 'no';
-//     console.log(`Is Bullish Inverted Hammer Pattern? : ${result}`);
-// }
-
-
-
-
-
-// function openSocket() {
-//     binance.websockets.chart("ETHBTC", "1h", (symbol, interval, chart) => {
-//         let tick = binance.last(chart);
-//         const last = chart[tick].close;
-//         //console.info(chart);
-//         // Optionally convert 'chart' object to array:
-//         let ohlc = binance.ohlc(chart);
-
-//         console.info(`${symbol},open ${ohlc["open"][498]},${ohlc["open"][499]}
-//     close ${ohlc["close"][498]}  ${ohlc["close"][499]}`);
-//         isHammer(ohlc["open"][498], ohlc["high"][498], ohlc["close"][498], ohlc["low"][498]);
-//         console.info(symbol + " last price: " + last);
-
-//     })
-// };
-// openSocket();
-// console.log("Hello David ");
