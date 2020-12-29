@@ -23,7 +23,8 @@ function runStrategy(strategyInfo,count) {
                     console.info("order id: " + response.orderId);
                     const order_str = new Order_Strategy({
                         "strategy_id": count,                            //strategyInfo["strategy_id"]
-                        "order_id": response.orderId
+                        "order_id": response.orderId,
+                        "user_id":strategyInfo["user_id"]
                     })
 
                     //save order
@@ -48,17 +49,15 @@ function runStrategy(strategyInfo,count) {
 
                     //set stop loss    
 
-                    // let price = ;
-                    // binance.sell("BNBETH", quantity, price, { type: 'LIMIT' }, (error, response) => {
-                    //     console.info("Limit Sell response", response);
-                    //     console.info("order id: " + response.orderId);
-                    // });
+
+
+            
                 });
 
 
                 ///    V  console.log("I'm bying");
                 console.log("I'm set stop_loss , and take_profit");
-                //    V  console.log("I'm chenge status");
+                //    V  console.log("I'm change status");
                 //   V   console.log("I'm save order_Id to orders_strategies");
             }
         }
