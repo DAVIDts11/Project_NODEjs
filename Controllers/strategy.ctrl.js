@@ -72,7 +72,6 @@ function runStrategy(strategyInfo,count) {
 exports.strategyController = {
     addStrategy(req, res) {
         strategyInfo = {
-            "strategy_id": req.body.strategy_id,
             "user_id": req.body.user_id,
             "strategy_type": req.body.strategy_type,
             "currency": req.body.currency,

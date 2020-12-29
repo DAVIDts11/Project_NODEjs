@@ -71,19 +71,41 @@ function getRelevantBalance(balances) {
     console.log(getRelevantBalance(balances));
 })();
 
-let quantity = 37.962;
+
 // binance.sell("IOTABTC", quantity, price, {type:'LIMIT'}, (error, response) => {
 //   console.info("Limit Buy response", response);
 //   console.info("order id: " + response.orderId);
 // });
-let type = "STOP_LOSS";
 
-let price = 0.00001099;
-let stopPrice = 0.00001086;
-// binance.sell("IOTABTC", quantity, price, {stopPrice: stopPrice, type: type});
+
+
+
+
+// let type = "STOP_LOSS_LIMIT";
+// let quantity = 0.3;
+// let price = 0.00125;
+// let stopPrice = 0.0012;
+// binance.sell("BNBBTC", quantity, price, {stopPrice: stopPrice, type: type}, (error, response) => {
+//       console.info("SL response", response);
+//       console.info("order id: " + response.orderId);
+//       // Now you can limit sell with a stop loss, etc.
+//     });
+
+
+
+
 
 //binance.sell("IOTABTC", quantity, price); //.then(console.log("kjak1")).catch(console.log("kjak2"));
 //binance.marketSell("IOTABTC", quantity);
+
+// buy (market) order
+// let quantity = 0.3;
+// binance.marketBuy("BNBBTC", quantity, (error, response) => {
+//   console.info("Market Buy response", response);
+//   console.info("order id: " + response.orderId);
+//   // Now you can limit sell with a stop loss, etc.
+// });
+
 
 
 
