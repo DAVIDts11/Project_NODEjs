@@ -5,8 +5,10 @@ $(document).ready(function () {
     }, 10000);
 
     getActiveStrategies();
-    getAllOrders()
-
+    getAllOrders();
+    $("#btn-add-strategy").click(function()  {
+        btnAddStrategy()
+    });
     // operationsListeners();
 });
 
@@ -153,11 +155,10 @@ async function calculateBtcValue(balance) {
 }
 
 function btnAddStrategy() {
-
-    const id = $("#user-id").val();
     let strategy = $(".card-header").text();
     if (strategy === "Hammer")
         strategy = "isHammer";
+    const id = $("#user-id").val();
     const currency = $("#currency").val();
     const amount = $("#amount").val();
     const profit = $("#take-profit").val();
@@ -170,6 +171,7 @@ function btnAddStrategy() {
         "take_profit": Number(profit),
         "stop_loss": Number(stoploss)
     };
+    console.log(result);
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/strategy/",
