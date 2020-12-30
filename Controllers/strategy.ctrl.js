@@ -111,10 +111,13 @@ function buyMarket(strategyInfo, count) {
         binance.prices(pair, (error, ticker) => {
             console.info(`Price of ${pair}:  ${ticker[pair]}`);   //
             let lastestPrice = Number(ticker[pair]);
+            
             // set stop loss :
-            setStopLoss(strategyInfo, count, pair ,lastestPrice);
+            setTimeout(setStopLoss, 3000,strategyInfo, count, pair ,lastestPrice);
+           // setStopLoss(strategyInfo, count, pair ,lastestPrice);
             //set take profit :
-            setTakePrifit(strategyInfo, count, pair ,lastestPrice);
+            setTimeout(setTakePrifit,3000,strategyInfo, count, pair ,lastestPrice);
+           // setTakePrifit(strategyInfo, count, pair ,lastestPrice);
         });
     });
 }
