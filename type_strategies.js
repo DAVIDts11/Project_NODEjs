@@ -6,10 +6,10 @@ let Strategy_Result = {};
 
 exports.isHammer = function isHammer(open, high, close, low) {
     const hammer = require('technicalindicators').bullishinvertedhammerstick;
-    // console.log(`   open = ${Number(open)} 
-    //                 close = ${Number(close)}
-    //                 high = ${Number(high)}
-    //                 low = ${Number(low)}`);
+    console.log(`   open = ${Number(open)} 
+                    close = ${Number(close)}
+                    high = ${Number(high)}
+                    low = ${Number(low)}`);
     let singleInput = {
         open: [Number(open)],
         high: [Number(high)],
@@ -18,7 +18,7 @@ exports.isHammer = function isHammer(open, high, close, low) {
     }
 
     hammerResult = hammer(singleInput) ? 'yes' : 'no';
-    Strategy_Result["isHammer"] = hammerResult;
+    Strategy_Result["Hammer"] = hammerResult;
  //   console.log(`Is Bullish Inverted Hammer Pattern? : ${Strategy_Result["isHammer"]}`);
 }
 
