@@ -12,9 +12,7 @@ exports.ordersController = {
         let result_list = [];
         Order_Strategy.find({ user_id: req.query.user_id }).
             then(docs => {
-
                 (async () => {
-
                     await (async () => {
                         const openOrders = await getAllOpenOrders();
                         for (i in openOrders) {
@@ -24,15 +22,10 @@ exports.ordersController = {
                                 if (openOrders[i]["orderId"] == docs[j]["order_id"]) {
                                     result_list.push(openOrders[i]);
                                 }
-
                             }
                         }
-
                     })();
-
-                    // console.log(result_list);            ///
                     res.json(result_list)
-
                 })();
 
 
