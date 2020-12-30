@@ -1,6 +1,7 @@
 const Strategy = require('../Models/strategy');
 const Order_Strategy = require('../Models/orders_strategies');
 const { binance } = require('../binance_connection');
+require("../socket");
 const { Socket, last } = require("../socket");
 
 
@@ -9,7 +10,7 @@ const { Strategy_Result } = require("../type_strategies");
 
 
 
-function updateStrategyStatus(count){
+function updateStrategyStatus(count) {
     Strategy.updateOne({ strategy_id: count }, {
         status: "waiting_to_sell"
     })
@@ -17,25 +18,25 @@ function updateStrategyStatus(count){
         .catch(err => console.log(`Error update strategy  status from db `));
 }
 
-function saveBuyOrder(order_str,count){
+function saveBuyOrder(order_str, count) {
     const result = order_str.save()
-    .then(result => {
-        if (result) {
-            console.log("order has been seved");
+        .then(result => {
+            if (result) {
+                console.log("order has been seved");
 
-            //update strategy status:         
-            updateStrategyStatus(count);
-        }
-        else {
-            res.status(404).send("Error saving a order_strategy");
-        }
-    })
-    .catch(err => console.log(`Error saving the data from db order_str: ${err}`))
+                //update strategy status:         
+                updateStrategyStatus(count);
+            }
+            else {
+                res.status(404).send("Error saving a order_strategy");
+            }
+        })
+        .catch(err => console.log(`Error saving the data from db order_str: ${err}`))
 
 }
 
 
-function buyMarket(strategyInfo,count){
+function buyMarket(strategyInfo, count) {
     let quantity = strategyInfo["amount"];
     let order_str;
     // buy market:
@@ -48,11 +49,54 @@ function buyMarket(strategyInfo,count){
             "user_id": strategyInfo["user_id"]
         })
         //save buy order
-        saveBuyOrder(order_str,count);
+        saveBuyOrder(order_str, count);
 
-        //set stop loss    
+        // (async () => {     
+        // lastest price:
+        let pair = strategyInfo["currency"];
+
+        binance.prices(pair, (error, ticker) => {
+            console.info(`Price of ${pair}:  ${ticker[pair]}`);   //
+            let  = ticker[pair];
+            // set stop loss
+            let type = "STOP_LOSS_LIMIT";
+            let quantity = 0.3;                 /// 
+            let price = lastestPrice ;
+            let stopPrice = 0.0012;
+            binance.sell( pair, quantity, price, { stopPrice: stopPrice, type: type }, (error, response) => {
+                console.info("SL response", response);
+                console.info("order id: " + response.orderId);
+                // Now you can limit sell with a stop loss, etc.
+            });
+
+
+
+
+        });
+
+
+
+
+
+        //  })();
+
+
+
+
+
 
         //set take profit
+
+        // let type = "STOP_LOSS_LIMIT";
+        // let quantity = 0.3;
+        // let price = 0.00125;
+        // let stopPrice = 0.0012;
+        // binance.sell("BNBBTC", quantity, price, {stopPrice: stopPrice, type: type}, (error, response) => {
+        //       console.info("SL response", response);
+        //       console.info("order id: " + response.orderId);
+        //       // Now you can limit sell with a stop loss, etc.
+        //     });
+
 
     });
 }
@@ -68,13 +112,12 @@ function runStrategy(strategyInfo, count) {
         console.log(strategy_status);
         if (strategy_status == "waiting_to_buy") {
             if (Strategy_Result[strategyInfo["strategy_type"]] == "yes") {
-                buyMarket(strategyInfo,count);
-               // console.log("I'm set stop_loss , and take_profit");
+                buyMarket(strategyInfo, count);
             }
         }
     }
     )();
-    console.log(Strategy_Result[strategyInfo["strategy_type"]]);
+    console.log(`${Strategy_Result[strategyInfo["strategy_type"]]} , lastest price = ${last[strategyInfo["currency"]]}  `);
 }
 
 

@@ -36,7 +36,6 @@ exports.ordersController = {
                 })();
 
 
-
             })
             .catch(err => console.log(`Erorr getting the data from db: ${err}`));
     },
