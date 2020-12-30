@@ -4,15 +4,18 @@ $(document).ready(function () {
         insertBalancesValues();
     }, 30000);
     // operationsListeners();
+    $("#send").click(function () {
+        click()
+    })
 });
 
 $(document)
     .ajaxStart(function () {
         $("#loading").show();
         $(".balance-usd")
-        .empty()
+            .empty()
         $(".balance-btc")
-        .empty()
+            .empty()
     })
     .ajaxStop(function () {
         $("#loading").hide();
@@ -70,14 +73,43 @@ async function calculateBtcValue(balance) {
 
     const usd_val = (prices['BTCUSDT'] * result);
     $(".balance-usd")
-    .empty()
-    .append('≈ ' + usd_val.toLocaleString('en-US', {maximumFractionDigits:2}))
-    .append('&nbsp;<i class="fas fa-dollar-sign fa-sm" style="color:#008800"></i>')
-    .hide()
-    .show("fast");
+        .empty()
+        .append('≈ ' + usd_val.toLocaleString('en-US', { maximumFractionDigits: 2 }))
+        .append('&nbsp;<i class="fas fa-dollar-sign fa-sm" style="color:#008800"></i>')
+        .hide()
+        .show("fast");
 }
 
-function Convert(coin_name, value) { }
-// function getBalanceValue(coin){
+function click() {
 
-// }
+    const id = $("#user-id").val();
+    let strategy = $(".card-header").text();
+    if (strategy === "Hammer")
+        strategy = "isHammer";
+    const currency = $("#currency").val();
+    const amount = $("#amount").val();
+    const profit = $("#take-profit").val();
+    const stoploss = $("#stop-loss").val();
+    var result = {
+        "user_id": Number(id),
+        "strategy_type": strategy,
+        "currency": currency,
+        "amount": Number(amount),
+        "take_profit": Number(profit),
+        "stop_loss": Number(stoploss)
+    };
+    console.log(result);
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/strategy/",
+        data: result,
+        success: function () {
+            console.log("AHLA")
+        },
+        // dataType: dataType
+        error: function () {
+            console.log("ERROR !");
+        },
+    });
+}
+
