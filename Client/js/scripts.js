@@ -5,20 +5,23 @@ $(document).ready(function () {
     }, 30000);
     // operationsListeners();
     $("#send").click(function () {
-        click()
+        btnAddStrategy()
     })
+    getActiveStrategies();
+    getAllOrders()
 });
 
 $(document)
     .ajaxStart(function () {
-        $("#loading").show();
+        $(".loading").show();
         $(".balance-usd")
             .empty()
         $(".balance-btc")
             .empty()
+
     })
     .ajaxStop(function () {
-        $("#loading").hide();
+        $(".loading").hide();
     });
 
 function insertBalancesValues() {
@@ -27,6 +30,73 @@ function insertBalancesValues() {
         type: "GET",
         success: function (result) {
             calculateBtcValue(result);
+        },
+        error: function () {
+            console.log("ERROR !");
+        },
+    });
+}
+
+function getActiveStrategies() {
+    $.ajax({
+        url: "http://localhost:8080/api/strategy/?user_id=12",
+        type: "GET",
+        success: function (result) {
+            insertActiveStrategies(result);
+        },
+        error: function () {
+            console.log("ERROR !");
+        },
+    });
+}
+
+
+function getAllOrders() {
+    $.ajax({
+        url: "http://localhost:8080/api/orders/?user_id=12",
+        type: "GET",
+        success: function (result) {
+            console.log(result);
+        },
+        error: function () {
+            console.log("ERROR !");
+        },
+    });
+}
+
+
+function insertActiveStrategies(active_strategies) {
+    $("#active-strategies-container").empty();
+    $(".loading").hide();
+    for (i in active_strategies)
+        $("#active-strategies-container").append(
+            `<div class="active-strategy" style="position:relative">
+            
+            <span class="card-header"> ${active_strategies[i].strategy_type} </span>
+            <span style="position:absolute;right:4px;margin:4px"> 
+            
+            <i class="fas fa-pencil-alt fa-sm" ></i>
+            <button type="button" class="btn btn-danger delete-strategy" 
+            onclick="deleteStrategy(${active_strategies[i].strategy_id})">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            </span>
+            <br><br>
+            <div> ${active_strategies[i].currency} </div>
+            <div> Status: ${active_strategies[i].status} </div>
+            
+        </div>`
+        )
+}
+
+
+function deleteStrategy(strategy_id) {
+    console.log(`ID: ${strategy_id}`);
+    $.ajax({
+        url: `http://localhost:8080/api/strategy/${strategy_id}`,
+        type: "DELETE",
+        success: function (result) {
+            getActiveStrategies();
         },
         error: function () {
             console.log("ERROR !");
@@ -80,7 +150,7 @@ async function calculateBtcValue(balance) {
         .show("fast");
 }
 
-function click() {
+function btnAddStrategy() {
 
     const id = $("#user-id").val();
     let strategy = $(".card-header").text();
@@ -106,7 +176,6 @@ function click() {
         success: function () {
             console.log("AHLA")
         },
-        // dataType: dataType
         error: function () {
             console.log("ERROR !");
         },
