@@ -52,17 +52,35 @@
             </div>
         </nav>
         <main>
-            <div class="wrapper">
+            <div class="wrapper" style="width: 50%;">
                 <span class="page-header">STRATEGIES -> Hammer</span>
-                <section class="big-section" style="height: 500px;margin-top:50px;">
+                <section class="big-section" style="height: auto ">
                     <span class="card-header">Hammer</span><br><br>
-                    <input type="text" id="user-id" placeholder="User ID"> <br>
-                    <input type="text" id="currency" placeholder="Currency"> <br>
-                    <input type="text" id="amount" placeholder="Amount"> <br>
-                    <input type="text" id="take-profit" placeholder="Take Profit"> <br>
-                    <input type="text" id="stop-loss" placeholder="Stop-loss"> <br>
-                    <br><br>
-                    <button type="button" id="send" class="btn btn-primary">Add Strategy!</button>
+                    <div class="input-group input-group-lg">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" aria-label="Large" id="user-id"
+                                placeholder="User ID" aria-describedby="inputGroup-sizing-sm">
+                        </div><br>
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" aria-label="Large" id="currency"
+                                placeholder="Currency" aria-describedby="inputGroup-sizing-sm">
+                        </div><br>
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" aria-label="Large" id="amount" placeholder="Amount"
+                                aria-describedby="inputGroup-sizing-sm">
+                        </div><br>
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" aria-label="Large" id="take-profit"
+                                placeholder="Take Profit" aria-describedby="inputGroup-sizing-sm">
+                        </div><br>
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" aria-label="Large" id="stop-loss"
+                                placeholder="Stop-loss" aria-describedby="inputGroup-sizing-sm">
+                        </div><br>
+                    </div><br>
+                    <div class="col text-center">
+                        <button type="button" id="send" class="btn btn-primary">Add Strategy!</button>
+                    </div>
                 </section>
 
             </div>

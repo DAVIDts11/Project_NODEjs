@@ -2,27 +2,14 @@ $(document).ready(function () {
     insertBalancesValues();
     setInterval(function () {
         insertBalancesValues();
-    }, 30000);
-    // operationsListeners();
-    $("#send").click(function () {
-        btnAddStrategy()
-    })
+    }, 10000);
+
     getActiveStrategies();
     getAllOrders()
+
+    // operationsListeners();
 });
 
-$(document)
-    .ajaxStart(function () {
-        $(".loading").show();
-        $(".balance-usd")
-            .empty()
-        $(".balance-btc")
-            .empty()
-
-    })
-    .ajaxStop(function () {
-        $(".loading").hide();
-    });
 
 function insertBalancesValues() {
     $.ajax({
@@ -56,7 +43,7 @@ function getAllOrders() {
         url: "http://localhost:8080/api/orders/?user_id=12",
         type: "GET",
         success: function (result) {
-            console.log(result);
+            console.log(result); //////////////////// CHANGEEEE
         },
         error: function () {
             console.log("ERROR !");
@@ -67,26 +54,40 @@ function getAllOrders() {
 
 function insertActiveStrategies(active_strategies) {
     $("#active-strategies-container").empty();
-    $(".loading").hide();
-    for (i in active_strategies)
+    $("#active-strategies-loading").hide();
+    let currency, status;
+    console.log(active_strategies[0]);
+    for (i in active_strategies) {
+        currency = active_strategies[i].currency;
+        status = active_strategies[i].currency;
+        if (status === "waiting_to_buy")
+            status = "Waiting To <b>BUY</b>";
+        else
+            status = status = "Waiting To <b>SELL</b>";
+        currency = currency.replace("BTC", "/BTC");
         $("#active-strategies-container").append(
             `<div class="active-strategy" style="position:relative">
             
-            <span class="card-header"> ${active_strategies[i].strategy_type} </span>
-            <span style="position:absolute;right:4px;margin:4px"> 
-            
-            <i class="fas fa-pencil-alt fa-sm" ></i>
-            <button type="button" class="btn btn-danger delete-strategy" 
-            onclick="deleteStrategy(${active_strategies[i].strategy_id})">
-                <i class="fas fa-trash-alt"></i>
-            </button>
-            </span>
-            <br><br>
-            <div> ${active_strategies[i].currency} </div>
-            <div> Status: ${active_strategies[i].status} </div>
-            
-        </div>`
+            <span class="card-header"> ${active_strategies[i].strategy_type} </span>           
+                <br><br>
+
+                <div style="font-size:30px;"> ${currency} </div>
+                <div> ${status} </div>
+
+                <div style="position:absolute;width:100%;display:flex;justify-content:space-evenly;bottom:5px">
+                    <button type="button" class="btn btn-link" 
+                    onclick="deleteStrategy(${active_strategies[i].strategy_id})">
+                    <i class="fas fa-trash-alt" ></i>
+                    </button>
+
+                    <button type="button" class="btn btn-link" 
+                    onclick="editStrategy(${active_strategies[i].strategy_id})">
+                        <i class="fas fa-pencil-alt "></i>
+                    </button>
+                </div>
+            </div>`
         )
+    }
 }
 
 
@@ -112,37 +113,38 @@ function getAllPrices(callback) {
 }
 
 async function calculateBtcValue(balance) {
-    let result = 0,
-        price;
+    $("#balance-loading").show();
+    $(".balance-btc").css("opacity", "0.2");
+    $(".balance-usd").css("opacity", "0.2");
+
+    let result = 0;
     const prices = await getAllPrices();
 
     for (coin_name in balance) {
-        console.log("checking " + coin_name);
-        if (coin_name === "BTC") result += balance["BTC"];
+        if (coin_name === "BTC")
+            result += Number(balance["BTC"]);
         else {
             for (symbol in prices)
                 if (coin_name + "BTC" === symbol) {
-                    console.log("Entering " + symbol);
                     const value = prices[symbol] * balance[coin_name];
-
-                    if (value > 0.01) {
-                        console.log("coin: " + coin_name + " | value: " + value);
+                    if (value > 0.00001) {
                         result += value;
                     }
                 }
         }
-        console.log(result);
     }
-    console.log("total = " + result);
-
-    $(".balance-btc").text(result.toFixed(8));
+    $("#balance-loading").hide();
     $(".balance-btc")
+        .css("opacity", "1")
+        .text(result.toFixed(8))
         .append('&nbsp;<i class="fab fa-btc fa-sm" style="color:orange"></i>')
         .hide()
         .show("fast");
 
     const usd_val = (prices['BTCUSDT'] * result);
+
     $(".balance-usd")
+        .css("opacity", "1")
         .empty()
         .append('≈ ' + usd_val.toLocaleString('en-US', { maximumFractionDigits: 2 }))
         .append('&nbsp;<i class="fas fa-dollar-sign fa-sm" style="color:#008800"></i>')
@@ -168,14 +170,10 @@ function btnAddStrategy() {
         "take_profit": Number(profit),
         "stop_loss": Number(stoploss)
     };
-    console.log(result);
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/strategy/",
         data: result,
-        success: function () {
-            console.log("AHLA")
-        },
         error: function () {
             console.log("ERROR !");
         },

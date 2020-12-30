@@ -167,10 +167,9 @@ nav i {
     text-align: center;
 }
 
-#active-strategies-loading{
+#active-strategies-loading {
     position: relative;
     margin-top: 40px;
-    
 }
 
 .support {
@@ -282,25 +281,27 @@ section {
 
 .balance-usd {
     position: absolute;
-    bottom: 10px;
+    bottom: 25px;
     font-size: 16px;
     font-weight: 400;
 }
 
 footer {
-    /* margin-top: 25px; */
     position: fixed;
+    border-top:3px solid grey;
     bottom: 0;
-    height: 20px;
+    height: 50px;
+    line-height: 50px;
     width: 100%;
-    background-color: #202020;
-    color: #606060;
+    background-color: #444;
+    color: #bbbbbb;
     text-align: center;
 }
 
 /* PAGE 2 */
 
 .strategy {
+    position: relative;
     display: block;
     border: 1px solid green;
     border-radius: 10px;
@@ -311,8 +312,6 @@ footer {
     transition: .2s ease-out;
 }
 
-
-
 .strategy:hover {
     background-color: #ddd;
 }
@@ -320,7 +319,6 @@ footer {
 #all-strategies {
     height: auto;
 }
-
 
 #strategies-container {
     display: flex;
@@ -330,31 +328,34 @@ footer {
 }
 
 .card-header {
+    display: block;
+    position: absolute;
+    width: 100%;
+    line-height: 24px;
     font-size: 18px;
+    margin-top: 5px;
 }
 
 #active-strategies {
     min-height: 100px;
     height: auto;
+}
+
+#active-strategies-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     text-align: center;
 }
 
-
-
-#active-strategies-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: auto;
-}
 .active-strategy {
     display: block;
-    border: 1px solid green;
+    background-image: linear-gradient(150deg,white, rgb(223, 223, 245));
+    box-shadow: 0px 1px 5px #666;
     border-radius: 10px;
-    width: 200px;
-    height: 100px;
-    margin-top: 30px;
+    width: 300px;
+    height: 150px;
+    margin-left: 1em;
+    margin-top: 20px;
     margin-bottom: 15px;
-    margin-left: auto;
-    margin-inline-start: 60px;
-    transition: .2s ease-out;
+    /* transition: .2s ease-out; */
 }
