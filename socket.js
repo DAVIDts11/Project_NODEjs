@@ -11,7 +11,7 @@ exports.Socket = function openSocket(currencyStr) {
         // Optionally convert 'chart' object to array:
         let ohlc = binance.ohlc(chart);
 
-        isHammer(ohlc["open"][494], ohlc["high"][494], ohlc["close"][494], ohlc["low"][494]);
+        isHammer(ohlc["open"][498], ohlc["high"][498], ohlc["close"][498], ohlc["low"][498]);
         // console.info(symbol + " last price: " + last);
 
     })
