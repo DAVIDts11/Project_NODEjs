@@ -1,7 +1,7 @@
 const express = require("express");
-const { StrategyRouter } = require("./routers/strategyRouter");
-const { OrdersRouter } = require("./routers/ordersRouter");
-const { PortfolioRouter } = require("./routers/portfolioRouter");
+const { StrategyRouter } = require("./Routers/strategyRouter");
+const { OrdersRouter } = require("./Routers/ordersRouter");
+const { PortfolioRouter } = require("./Routers/portfolioRouter");
 
 
 
