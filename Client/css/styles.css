@@ -288,8 +288,9 @@ section {
 
 footer {
     position: fixed;
-    border-top:3px solid grey;
+    border-top: 3px solid grey;
     bottom: 0;
+    z-index: 100;
     height: 50px;
     line-height: 50px;
     width: 100%;
@@ -337,7 +338,7 @@ footer {
 }
 
 #active-strategies {
-    min-height: 100px;
+    min-height: 130px;
     height: auto;
 }
 
@@ -349,7 +350,7 @@ footer {
 
 .active-strategy {
     display: block;
-    background-image: linear-gradient(150deg,white, rgb(223, 223, 245));
+    background-image: linear-gradient(150deg, white, rgb(223, 223, 245));
     box-shadow: 0px 1px 5px #666;
     border-radius: 10px;
     width: 300px;
@@ -358,4 +359,25 @@ footer {
     margin-top: 20px;
     margin-bottom: 15px;
     /* transition: .2s ease-out; */
+}
+
+#alert{
+    position: absolute;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 101;
+    display: none;
+    color: green;
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+    background: gray;
+    border-radius: 10px;
+    right: 0;
+    left: 0;
+    top: 60px;
+    opacity: .8;
+    font-size: 20px;
+    font-weight: bold;
 }
