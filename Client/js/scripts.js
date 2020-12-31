@@ -1,3 +1,5 @@
+//  const { binance } = require("../../binance_connection");
+
 $(document).ready(function () {
     insertBalancesValues();
     setInterval(function () {
@@ -6,10 +8,14 @@ $(document).ready(function () {
 
     getActiveStrategies();
     getAllOrders();
-    $("#btn-add-strategy").on("click",function()  {
-        btnAddStrategy()
+
+    $("#btn-add-strategy").on("click", function () {
+        btnAddStrategy();
+        alertMessage("Strategy Added Successfully !")
+            .then(setTimeout(function () { window.location.href = "strategies.html"; }, 4000));
+
     });
-    // operationsListeners();
+
 });
 
 
@@ -57,8 +63,14 @@ function getAllOrders() {
 function insertActiveStrategies(active_strategies) {
     $("#active-strategies-container").empty();
     $("#active-strategies-loading").hide();
+
+    if (active_strategies.length === 0) {
+        $("#active-strategies-container").append(
+            `<div style="color:#ccc; position:absolute;font-size:30px; left:0;right:0;margin:35px auto;line-height:40px"><p>THERE ARE NO ACTIVE STRATEGIES ...</p></div>`)
+        return;
+    }
+    // console.log(active_strategies[0]);
     let currency, status;
-    console.log(active_strategies[0]);
     for (i in active_strategies) {
         currency = active_strategies[i].currency;
         status = active_strategies[i].status;
@@ -94,7 +106,6 @@ function insertActiveStrategies(active_strategies) {
 
 
 function deleteStrategy(strategy_id) {
-    console.log(`ID: ${strategy_id}`);
     $.ajax({
         url: `http://localhost:8080/api/strategy/${strategy_id}`,
         type: "DELETE",
@@ -156,22 +167,32 @@ async function calculateBtcValue(balance) {
 
 function btnAddStrategy() {
     let strategy = $(".card-header").text();
-    if (strategy === "Hammer")
-        strategy = "isHammer";
-    const id = $("#user-id").val();
-    const currency = $("#currency").val();
+
+    const currency = $("#currencies").val();
+    if (currency === null) {
+        alert("Please Choose Currency!");
+    }
     const amount = $("#amount").val();
+    if (amount === null) {
+        alert("Please Add Amount to Buy!");
+    }
     const profit = $("#take-profit").val();
+    if (profit === null) {
+        alert("Please Add Take-Profit Value!");
+    }
     const stoploss = $("#stop-loss").val();
+    if (stoploss === null) {
+        alert("Please Add Stoploss Value!");
+    }
+    // return;
     var result = {
-        "user_id": Number(id),
+        "user_id": 12,
         "strategy_type": strategy,
         "currency": currency,
         "amount": Number(amount),
         "take_profit": Number(profit),
         "stop_loss": Number(stoploss)
     };
-    console.log(result);
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/strategy/",
@@ -180,5 +201,18 @@ function btnAddStrategy() {
             console.log("ERROR !");
         },
     });
+}
+
+
+async function alertMessage(message) {
+    console.log("Alert activated - ", message);
+    $("#alert").text(message);
+    $("#alert").show();
+    await sleep(4000);
+    $("#alert").hide();
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
