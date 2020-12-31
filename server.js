@@ -20,10 +20,10 @@ app.use((req, res, next) => {
     next();
 });
 
+
 app.use("/api/strategy", StrategyRouter);
 app.use("/api/orders", OrdersRouter);
 app.use("/api/portfolio", PortfolioRouter);
-
 
 
 app.use((err, req, res, next) => {
