@@ -69,6 +69,14 @@ function getRelevantBalance(balances) {
     console.log(getRelevantBalance(balances));
 })();
 
+(async () => {
+    console.log("SELLING FOR OMRI");
+    await binance.sell("IOTABTC", 10, 0.0000105, {type:"OCO",stopLimitPrice:0.0000101, stopPrice:0.0000101}, (error, response) => {
+        console.info("RESPONSE:", response);
+        console.info("ORDER_ID: ", response.orders[0].orderId, " ",  response.orders[1].orderId);
+    } );
+    //console.log(balances);
+})();
 
 // binance.sell("IOTABTC", quantity, price, {type:'LIMIT'}, (error, response) => {
 //   console.info("Limit Buy response", response);

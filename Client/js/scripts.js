@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     getActiveStrategies();
     getAllOrders();
-    $("#btn-add-strategy").click(function()  {
+    $("#btn-add-strategy").on("click",function()  {
         btnAddStrategy()
     });
     // operationsListeners();
@@ -61,11 +61,11 @@ function insertActiveStrategies(active_strategies) {
     console.log(active_strategies[0]);
     for (i in active_strategies) {
         currency = active_strategies[i].currency;
-        status = active_strategies[i].currency;
+        status = active_strategies[i].status;
         if (status === "waiting_to_buy")
             status = "Waiting To <b>BUY</b>";
         else
-            status = status = "Waiting To <b>SELL</b>";
+            status = "Waiting To <b>SELL</b>";
         currency = currency.replace("BTC", "/BTC");
         $("#active-strategies-container").append(
             `<div class="active-strategy" style="position:relative">
