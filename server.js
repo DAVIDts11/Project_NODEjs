@@ -1,7 +1,7 @@
 const express = require("express");
-const { StrategyRouter } = require("./routers/strategyRouter");
-const { OrdersRouter } = require("./routers/ordersRouter");
-const { PortfolioRouter } = require("./routers/portfolioRouter");
+const { StrategyRouter } = require("./Routers/strategyRouter");
+const { OrdersRouter } = require("./Routers/ordersRouter");
+const { PortfolioRouter } = require("./Routers/portfolioRouter");
 
 
 
@@ -20,10 +20,10 @@ app.use((req, res, next) => {
     next();
 });
 
+
 app.use("/api/strategy", StrategyRouter);
 app.use("/api/orders", OrdersRouter);
 app.use("/api/portfolio", PortfolioRouter);
-
 
 
 app.use((err, req, res, next) => {
