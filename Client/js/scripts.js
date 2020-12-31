@@ -171,18 +171,22 @@ function btnAddStrategy() {
     const currency = $("#currencies").val();
     if (currency === null) {
         alert("Please Choose Currency!");
+        return;
     }
     const amount = $("#amount").val();
     if (amount === null) {
         alert("Please Add Amount to Buy!");
+        return;
     }
     const profit = $("#take-profit").val();
     if (profit === null) {
         alert("Please Add Take-Profit Value!");
+        return;
     }
     const stoploss = $("#stop-loss").val();
     if (stoploss === null) {
         alert("Please Add Stoploss Value!");
+        return;
     }
     // return;
     var result = {
@@ -207,9 +211,9 @@ function btnAddStrategy() {
 async function alertMessage(message) {
     console.log("Alert activated - ", message);
     $("#alert").text(message);
-    $("#alert").show();
+    $("#alert").slideDown();
     await sleep(4000);
-    $("#alert").hide();
+    // $("#alert").hide();
 }
 
 function sleep(ms) {
