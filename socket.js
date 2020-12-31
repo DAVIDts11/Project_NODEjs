@@ -2,17 +2,15 @@ const { binance } = require('./binance_connection');
 const {isHammer} = require("./type_strategies")
 
 
-let last;
+let last = {};
 exports.Socket = function openSocket(currencyStr) {
-    binance.websockets.chart(currencyStr, "5m", (symbol, interval, chart) => {
+    binance.websockets.chart(currencyStr, "2h", (symbol, interval, chart) => {
         let tick = binance.last(chart);
-        last = chart[tick].close;
+        last[currencyStr] = chart[tick].close;
         //console.info(chart);
         // Optionally convert 'chart' object to array:
         let ohlc = binance.ohlc(chart);
 
-        // console.info(`${symbol},open ${ohlc["open"][498]},${ohlc["open"][499]}
-    // close ${ohlc["close"][498]}  ${ohlc["close"][499]}`);
         isHammer(ohlc["open"][498], ohlc["high"][498], ohlc["close"][498], ohlc["low"][498]);
         // console.info(symbol + " last price: " + last);
 

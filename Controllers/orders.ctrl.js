@@ -17,8 +17,6 @@ exports.ordersController = {
                         const openOrders = await getAllOpenOrders();
                         for (i in openOrders) {
                             for (j in docs) {
-                                console.log(`openOrder = ${openOrders[i]["orderId"]}
-                                  doc = ${docs[j]["order_id"]}`)
                                 if (openOrders[i]["orderId"] == docs[j]["order_id"]) {
                                     result_list.push(openOrders[i]);
                                 }
@@ -27,7 +25,6 @@ exports.ordersController = {
                     })();
                     res.json(result_list)
                 })();
-
 
 
             })

@@ -18,7 +18,7 @@ exports.isHammer = function isHammer(open, high, close, low) {
     }
 
     hammerResult = hammer(singleInput) ? 'yes' : 'no';
-    Strategy_Result["isHammer"] = hammerResult;
+    Strategy_Result["Hammer"] = hammerResult;
  //   console.log(`Is Bullish Inverted Hammer Pattern? : ${Strategy_Result["isHammer"]}`);
 }
 
