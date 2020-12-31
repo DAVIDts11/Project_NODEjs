@@ -13,7 +13,7 @@ function updateStrategyStatus(strategyID, newStatus) {
         status: newStatus
     })
         .then(docs => { res.json(docs) })
-        .catch(err => console.log(`Error update strategy  status from db `));
+        //.catch(err => console.log(`Error update strategy  status from db `));
 }
 
 
@@ -37,63 +37,39 @@ function saveOrder(order_str, strategy_id, orderType) {
 
 }
 
-
-
-function setTakeProfit(strategyInfo, count, pair, lastestPrice) {
-    //set take profit :
-    let type = "TAKE_PROFIT_LIMIT"  //"LIMIT_MAKER";
-    let quantity = 99//strategyInfo["amount"];//(strategyInfo["amount"] * (100 - binanceCommitionPr)/100);
-    let price = (lastestPrice * (100 + strategyInfo["take_profit"]) / 100).toFixed(8); //0.00001100
-    let stopPrice = (price * 1.02).toFixed(8);   // 0.00001105
-    console.log(`pair = ${pair} order type = ${type} ,quantity = ${quantity} , price = ${price} , stopPrice = ${stopPrice} `);
-    binance.sell(pair, quantity, price, { stopPrice: stopPrice, type: type }, (error, response) => {
-        console.info("TP response", response);
-        console.info("order id: " + response.orderId);
-        order_str = new Order_Strategy({
-            "strategy_id": count,
-            "order_id": response.orderId,
-            "user_id": strategyInfo["user_id"]
-        });
-        //save take_profit order
-        const orderType = "take_profit";
-        saveOrder(order_str, count, orderType);
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
     });
-
 }
 
-
-
-function setStopLoss(strategyInfo, count, pair, lastestPrice) {
-    // set stop loss :
-    let quantity =   Number(strategyInfo["amount"]) ;//* (100 - binanceCommitionPr)/100;
-    let profitPrice =  Number((lastestPrice * (100 + strategyInfo["take_profit"]) / 100).toFixed(8));     //0.0000105;                                  
-    let stop_Price =  Number((lastestPrice * (100 - strategyInfo["stop_loss"]) / 100).toFixed(8));    //0.0000101;      
-    let stop_Limit_Price = stop_Price;  //0.0000101;      
+function setStopLimits(strategyInfo, count, pair, lastestPrice) {
+    // set stop loss and take profit :
+    let quantity = Number(strategyInfo["amount"]);
+    let profitPrice = Number((lastestPrice * (100 + strategyInfo["take_profit"]) / 100).toFixed(7));                                     
+    let stop_Price = Number((lastestPrice * (100 - strategyInfo["stop_loss"]) / 100).toFixed(7));        
+    let stop_Limit_Price = stop_Price;      
     console.log(`pair = ${pair} ,quantity = ${quantity} , profitPrice = ${profitPrice} , stopPrice = ${stop_Price} , stopLimitPrice = ${stop_Limit_Price} `);
+    console.log(typeof (pair), typeof (quantity), typeof (profitPrice), typeof (stop_Price), typeof (stop_Limit_Price));
+
     binance.sell(pair, quantity, profitPrice, { type: "OCO", stopLimitPrice: stop_Limit_Price, stopPrice: stop_Price }, (error, response) => {
         console.info("RESPONSE:", response);
-        console.info("ORDER_IDS: ", response.orders[0].orderId, " ", response.orders[1].orderId);
+        if (response.orders) {
+            console.info("ORDER_IDS: ", response.orders[0].orderId, " ", response.orders[1].orderId);
+
+            for (let i = 0; i < 2; i++) {
+                order_str = new Order_Strategy({
+                    "strategy_id": count,
+                    "order_id": response.orders[i].orderId,
+                    "user_id": strategyInfo["user_id"]
+                });
+                //save take_profit order
+                const orderType = "limitOrder";
+                saveOrder(order_str, count, orderType);
+            }
+        }
+
     });
-
-
-
-    // let type = "STOP_LOSS_LIMIT";
-    // let quantity = 99// strategyInfo["amount"] ; //* (100 - binanceCommitionPr)/100;
-    // let price = ((lastestPrice * (100 - strategyInfo["stop_loss"]) / 100).toFixed(8));
-    // let stopPrice = ((price * 0.98).toFixed(8));
-    // console.log(`pair = ${pair} order type = ${type} ,quantity = ${quantity} , price = ${price} , stopPrice = ${stopPrice} `);
-    // binance.sell(pair, quantity, price, { stopPrice: stopPrice, type: type }, (error, response) => {
-    //     console.info("SL response", response);
-    //     console.info("order id: " + response.orderId);
-    //     order_str = new Order_Strategy({
-    //         "strategy_id": count,
-    //         "order_id": response.orderId,
-    //         "user_id": strategyInfo["user_id"]
-    //     });
-    //     //save stop_loss  order
-    //     const orderType = "stop_loss";
-    //     saveOrder(order_str, count, orderType);
-    // });
 
 }
 
@@ -120,8 +96,6 @@ function buyMarket(strategyInfo, count) {
         //save buy order
         saveOrder(order_str, count, "buyMarket");
 
-
-
         // // lastest price:
         let pair = strategyInfo["currency"];
 
@@ -129,21 +103,12 @@ function buyMarket(strategyInfo, count) {
             console.info(`Price of ${pair}:  ${ticker[pair]}`);   //
             let lastestPrice = Number(ticker[pair]);
             // set OCO order :
-            setStopLoss(strategyInfo, count, pair, lastestPrice);
+            setStopLimits(strategyInfo, count, pair, lastestPrice);
 
         });
 
-        // setTakeProfit(strategyInfo, count, pair, lastestPrice);
-
-        // setTimeout(setStopLoss, 3000,strategyInfo, count, pair ,lastestPrice);
-
-        //set take profit :
-        // setTimeout(setTakePrifit,3000,strategyInfo, count, pair ,lastestPrice);
-
     });
 }
-
-
 
 
 
@@ -152,7 +117,7 @@ function runStrategy(strategyInfo, count) {
     let strategy_status;
     console.log(count);
     (async () => {
-        await Strategy.find({ strategy_id: count }).      //strategyInfo["strategy_id"]
+        await Strategy.find({ strategy_id: count }).      
             then(docs => { strategy_status = docs[0]["status"] })
             .catch(err => console.log('Erorr getting the data from db: ${err}'));
         console.log(strategy_status);
