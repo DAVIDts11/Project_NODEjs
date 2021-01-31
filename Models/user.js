@@ -23,7 +23,7 @@ const  user = new Schema({
     user_id: {type: Number, default: 0, unique: true},
     first_name: {type : String , required:true},
     last_name : {type: String, required:true},
-    permissioan:{type: String, default:"reg"},
+    permission:{type: String, default:"reg"},
     sing_up_date: { type: Date , default: Date.now},
     ////  
 }, {collection: 'users'});
