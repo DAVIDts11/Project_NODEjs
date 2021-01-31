@@ -167,7 +167,7 @@ exports.strategyController = {
     },
 
     getStrategy(req, res) {
-        Schedule.find({ strategy_id: req.params.id })
+        Strategy.find({ strategy_id: req.params.id })
             .then(docs => { res.json(docs) })
             .catch(err => console.log(`Error getting the data from db: ${err}`));
 

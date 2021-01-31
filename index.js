@@ -9,17 +9,8 @@ require("./type_strategies");
 
 
 
-//lastest price:
-// let pair  = 'BNBBTC';
-// binance.prices(pair, (error, ticker) => {
-//     console.info("Price of BNB: ", ticker[pair]);
-//   });
 
 
-
-// binance.bookTickers('BNBBTC', (error, ticker) => {
-//     console.info( ticker["bidPrice"]);
-//   });
 
 
 async function getAllBalances() {
@@ -57,6 +48,7 @@ function getRelevantBalance(balances) {
 })();
 
 
+//Getting All Open:
 (async () => {
     const openOrders = await getAllOpenOrders();
     console.log(openOrders);
