@@ -73,14 +73,6 @@ function setStopLimits(strategyInfo, count, pair, lastestPrice) {
 
 }
 
-
-
-
-
-
-
-
-
 function buyMarket(strategyInfo, count) {
     let quantity = strategyInfo["amount"];
     let order_str;
