@@ -21,7 +21,6 @@ autoIncrement.initialize(connection);
 
 const  user = new Schema({
     user_id: {type: Number, default: 0, unique: true},
-<<<<<<< HEAD
     username: {type: String},
     googleId: {type: String},
     thumbnail: {type: String},
@@ -31,13 +30,7 @@ const  user = new Schema({
     // last_name : {type: String, required:true},
     // permissioan:{type: String, default:"reg"},
     // sing_up_date: { type: Date , default: Date.now},
-=======
-    first_name: {type : String , required:true},
-    last_name : {type: String, required:true},
-    permission:{type: String, default:"reg"},
-    sing_up_date: { type: Date , default: Date.now},
->>>>>>> ec019974413548181d997e75efa416a6ac3f797b
-    ////  
+
 }, {collection: 'users'});
 
 
