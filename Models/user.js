@@ -21,15 +21,21 @@ autoIncrement.initialize(connection);
 
 const  user = new Schema({
     user_id: {type: Number, default: 0, unique: true},
-    first_name: {type : String , required:true},
-    last_name : {type: String, required:true},
-    permissioan:{type: String, default:"reg"},
-    sing_up_date: { type: Date , default: Date.now},
+    username: {type: String},
+    googleId: {type: String},
+    thumbnail: {type: String},
+    binance_key:{type: String ,default:"None"},
+    binance_private : {type: String ,default:"None"}
+    // first_name: {type : String , required:true},
+    // last_name : {type: String, required:true},
+    // permissioan:{type: String, default:"reg"},
+    // sing_up_date: { type: Date , default: Date.now},
     ////  
 }, {collection: 'users'});
 
 
-strategy.plugin(autoIncrement.plugin, {
+
+user.plugin(autoIncrement.plugin, {
     model: 'User',
     field: 'user_id',
     startAt: 1,

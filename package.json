@@ -16,11 +16,15 @@
   "dependencies": {
     "bootstrap": "^3.4.1",
     "bootstrap-select": "^1.13.18",
+    "cookie-session": "^1.4.0",
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "mongoose": "^5.11.8",
     "mongoose-auto-increment": "^5.0.1",
     "node-binance-api": "^0.12.4",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
     "technicalindicators": "^3.1.0"
   }
 }

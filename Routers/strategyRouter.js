@@ -12,4 +12,4 @@ StrategyRouter.get('/:id', strategyController.getStrategy);
 StrategyRouter.put('/:id', strategyController.updateStrategy);
 StrategyRouter.delete('/:id', strategyController.deleteStrategy);
 
-exports.StrategyRouter = StrategyRouter;
+module.exports.StrategyRouter = StrategyRouter;

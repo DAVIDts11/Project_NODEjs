@@ -7,4 +7,4 @@ const PortfolioRouter= new Router;
 PortfolioRouter.get('/', portfolioController.getPortfolio);
 PortfolioRouter.get('/prices', portfolioController.getPrices);
 
-exports.PortfolioRouter = PortfolioRouter;
+module.exports.PortfolioRouter = PortfolioRouter;

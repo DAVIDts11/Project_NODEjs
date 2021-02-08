@@ -10,4 +10,4 @@ OrdersRouter.get('/', ordersController.getOrders);
 // OrdersRouter.put('/:id', ordersController.updateOrder);
 // OrdersRouter.delete('/:id', ordersController.deleteOrder);
 
-exports.OrdersRouter = OrdersRouter;
+module.exports.OrdersRouter = OrdersRouter;

@@ -113,7 +113,6 @@ function buyMarket(strategyInfo, count) {
 
 
 function runStrategy(strategyInfo, count) {
-    Socket(strategyInfo["currency"]);
     let strategy_status;
     console.log(count);
     (async () => {
@@ -151,6 +150,7 @@ exports.strategyController = {
                     // console.log(Strategy_Result[req.body.strategy_type]);
 
                     Strategy.nextCount(function (err, count) {
+                        Socket(strategyInfo["currency"]);
                         setInterval(runStrategy, 7500, strategyInfo, count - 1);
                     });
                     res.json(result);
