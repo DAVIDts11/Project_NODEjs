@@ -13,7 +13,6 @@ require('./db_connection');
 const app = express();
 
 
-<<<<<<< HEAD
 
 
 // set view engine
@@ -45,10 +44,6 @@ app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
 
-=======
-const app = express();
-const port = process.env.PORT || 8080;  
->>>>>>> ec019974413548181d997e75efa416a6ac3f797b
 
 
 app.use(express.json());

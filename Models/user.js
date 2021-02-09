@@ -24,8 +24,8 @@ const  user = new Schema({
     username: {type: String},
     googleId: {type: String},
     thumbnail: {type: String},
-    binance_key:{type: String ,default:"None"},
-    binance_private : {type: String ,default:"None"}
+    binance_key:{type: String ,default:""},
+    binance_private : {type: String ,default:""}
     // first_name: {type : String , required:true},
     // last_name : {type: String, required:true},
     // permissioan:{type: String, default:"reg"},
