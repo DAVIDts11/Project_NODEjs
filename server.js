@@ -7,7 +7,7 @@ const consts = require('./constants');
 const passport = require('passport');
 const authRoutes = require('./Routers/authRouter');
 const profileRoutes = require('./Routers/profileRouter');
-const passportSetup = require('./config/passport_setup');
+require('./config/passport_setup');
 require('./db_connection');
 
 const app = express();
@@ -20,6 +20,7 @@ app.set('view engine', 'ejs');
 
 // set up session cookies
 app.use(cookieSession({
+    name: 'david',
     maxAge: 24 * 60 * 60 * 1000,
     keys: [consts.GOOGLE_AUTH.session.cookieKey]
 }));

@@ -11,6 +11,7 @@ const BINANCE_API_TEMP = {
 }
 
 
+
 GOOGLE_AUTH = {
     google: {
         clientID: process.env.CLIENT_ID ,
@@ -18,7 +19,8 @@ GOOGLE_AUTH = {
     },
     session: {
         cookieKey: process.env.COOKIE_KEY
-    }
+    },
+    crypto: process.env.CRYPTO_KEY
 };
 
 module.exports = {
