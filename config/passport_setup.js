@@ -6,10 +6,12 @@ const User = require('../Models/user');
 
 
 passport.serializeUser((user, done) => {
+    console.log("PASSSSSSSSSS PORTTTTTTTTTT USERRRRRRRRRRRRRR" , user);
     done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
+    console.log("DE SE RIALIZEEEEEEEEEEEE USERERERER" , id);
     User.findById(id).then((user) => {
         done(null, user);
     });
