@@ -12,6 +12,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
+    console.log("DE SE RIALIZEEEEEEEEEEEE USERERERER" , id);
     User.findById(id).then((user) => {
         console.log("id deserialize =  ", id);
         done(null, user);

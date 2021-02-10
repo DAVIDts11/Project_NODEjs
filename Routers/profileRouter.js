@@ -6,10 +6,13 @@ const consts = require('../constants');
 const cryptr = new Cryptr(consts.GOOGLE_AUTH.crypto);
 
 const authCheck = (req, res, next) => {
-    if(!req.user){
+    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHERE IS REQ ", req);
+    if (!req.user) {
+        console.log("Not Working:");
         console.log("redirect");
         res.redirect('/auth/login');
     } else {
+        console.log("SUCCESSSSSS ");
         next();
     }
 };
@@ -24,6 +27,6 @@ router.get('/', authCheck, (req, res) => {
 });
 
 
-router.put("/",authCheck,profileController.updateUser);
+router.put("/",authCheck, profileController.updateUser);
 
 module.exports = router;
