@@ -1,17 +1,16 @@
 const User = require('../Models/user');
+const { cryptr } = require("../config/passport_setup")
 
 
 exports.profileController = {
     updateUser(req, res) {
-        console.log("I'm trying to update:", req);
+        const enc_binance_key = cryptr.encrypt(req.body.binance_key);
+        const enc_binance_private = cryptr.encrypt(req.body.binance_private);
         User.updateOne({ _id: req.user.id }, {
-            binance_key: req.body.binance_key,
-            binance_private: req.body.binance_private,
+            binance_key: enc_binance_key,
+            binance_private: enc_binance_private,
         })
             .then(docs => {
-                console.log(req.body.binance_key);
-                console.log(req.body.binance_private);
-                console.log(req.user);
                 res.json(docs);
             })
             .catch(err => console.log(`Error update user from db : ${req.user}`));

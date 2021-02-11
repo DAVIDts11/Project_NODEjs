@@ -1,6 +1,7 @@
 const Strategy = require('../Models/strategy');
 const Order_Strategy = require('../Models/orders_strategies');
 const { binance } = require('../binance_connection');
+const {binanceConectedList}=require("./binance.ctrl");
 require("../socket");
 const { Socket, last } = require("../socket");
 

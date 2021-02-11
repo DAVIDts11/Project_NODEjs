@@ -42,7 +42,6 @@ function getRelevantBalance(balances) {
 //Getting All Balances:
 (async () => {
     const balances = await getAllBalances();
-    //console.log(balances);
     console.log(getRelevantBalance(balances));
 })();
 

@@ -2,6 +2,7 @@ const express = require("express");
 const { StrategyRouter } = require("./Routers/strategyRouter");
 const { OrdersRouter } = require("./Routers/ordersRouter");
 const { PortfolioRouter } = require("./Routers/portfolioRouter");
+const {BinanceRouter} = require("./Routers/binanceRouter");
 const cookieSession = require('cookie-session');
 const consts = require('./constants');
 const passport = require('passport');
@@ -10,7 +11,6 @@ const profileRoutes = require('./Routers/profileRouter');
 require('./config/passport_setup');
 require('./db_connection');
 const cors = require('cors');
-// const bodyParser = require('body-parser')
 
 const app = express();
 app.use(express.json());
@@ -41,7 +41,7 @@ app.use('/profile', profileRoutes);
 app.use("/api/strategy", StrategyRouter);
 app.use("/api/orders", OrdersRouter);
 app.use("/api/portfolio", PortfolioRouter);
-
+app.use("/api/binance",BinanceRouter)
 
 // create home route
 app.get('/', (req, res) => {

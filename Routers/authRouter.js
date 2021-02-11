@@ -9,7 +9,6 @@ router.get('/login', (req, res) => {
 // auth logout
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
 });
 
 // auth with google+
