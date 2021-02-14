@@ -142,14 +142,14 @@ exports.strategyController = {
             "stop_loss": req.body.stop_loss
         }
         const newStrategy = new Strategy(strategyInfo);
-        thisBinance = binanceConectedList[req.user.id];
+        const thisBinance = binanceConectedList[req.user.id];
         const result = newStrategy.save()
             .then(result => {
                 if (result) {
                     // console.log(Strategy_Result[req.body.strategy_type]);
 
                     Strategy.nextCount(function (err, count) {
-                        Socket(strategyInfo["currency"],count - 1);
+                        Socket(thisBinance, strategyInfo["currency"],count - 1);
                         setInterval(runStrategy, 7500, thisBinance, strategyInfo, count - 1);
                     });
                     res.json(result);
