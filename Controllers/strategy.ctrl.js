@@ -139,14 +139,13 @@ exports.strategyController = {
             "take_profit": req.body.take_profit,
             "stop_loss": req.body.stop_loss
         }
-        console.log(req.body, "\n");
+        // console.log(req.body, "\n");
         const newStrategy = new Strategy(strategyInfo);
         const thisBinance = binanceConectedList[req.user.id];
         const result = newStrategy.save()
             .then(result => {
                 if (result) {
                     // console.log(Strategy_Result[req.body.strategy_type]);
-
                     Strategy.nextCount(function (err, count) {
                         const strategy_id = count - 1;
                         console.log(strategy_id);
@@ -163,29 +162,21 @@ exports.strategyController = {
     },
 
     getStrategies(req, res) {
-        //  NISUY
-        console.log(req.user.user_id);
-        thisBinance = binanceConectedList[req.user.id];
-        (async () => {
-            const bb = await getAllBalances(thisBinance);
-            console.log(bb);
-        })();
-        // let filter = {};
-        // filter.user_id = req.query.user_id;
-        // if ('currency' in req.query)
-        //     filter.currency = req.query.currency;
-        // if ('status' in req.query)
-        //     filter.status = req.query.status;
-        // Strategy.find(filter).
-        //     then(docs => { res.json(docs) })
-        //     .catch(err => console.log(`Erorr getting the data from db: ${err}`));
+        let filter = {};
+        filter.user_id = req.user.id;
+        if ('currency' in req.query)
+            filter.currency = req.query.currency;
+        if ('status' in req.query)
+            filter.status = req.query.status;
+        Strategy.find(filter).
+            then(docs => { res.json(docs) })
+            .catch(err => console.log(`Erorr getting the data from db: ${err}`));
     },
 
     getStrategy(req, res) {
         Strategy.find({ strategy_id: req.params.id })
             .then(docs => { res.json(docs) })
             .catch(err => console.log(`Error getting the data from db: ${err}`));
-
     },
 
     updateStrategy(req, res) {
