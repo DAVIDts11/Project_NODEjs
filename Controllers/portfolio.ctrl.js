@@ -4,7 +4,9 @@ const { binanceConectedList } = require("./binance.ctrl");
 
 exports.portfolioController = {
     getPortfolio(req, res) {
-        thisBinance = binanceConectedList[req.user.id];
+        
+        let thisBinance = binanceConectedList[req.user.id];
+
         async function getAllBalances() {
             return await thisBinance.balance();
         };

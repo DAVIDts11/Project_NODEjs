@@ -43,11 +43,11 @@ function saveOrder(order_str, strategy_id, orderType) {
 
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
+// function sleep(ms) {
+//     return new Promise((resolve) => {
+//         setTimeout(resolve, ms);
+//     });
+// }
 
 function setStopLimits(thisBinance, strategyInfo, count, pair, lastestPrice) {
     // set stop loss and take profit :
@@ -129,8 +129,6 @@ function runStrategy(thisBinance, strategyInfo, count) {
 }
 
 
-
-
 exports.strategyController = {
     addStrategy(req, res) {
         strategyInfo = {
@@ -141,6 +139,7 @@ exports.strategyController = {
             "take_profit": req.body.take_profit,
             "stop_loss": req.body.stop_loss
         }
+        console.log(req.body, "\n");
         const newStrategy = new Strategy(strategyInfo);
         const thisBinance = binanceConectedList[req.user.id];
         const result = newStrategy.save()
@@ -149,7 +148,9 @@ exports.strategyController = {
                     // console.log(Strategy_Result[req.body.strategy_type]);
 
                     Strategy.nextCount(function (err, count) {
-                        Socket(thisBinance, strategyInfo["currency"],count - 1);
+                        const strategy_id = count - 1;
+                        console.log(strategy_id);
+                        Socket(thisBinance,strategyInfo["currency"],strategy_id);
                         setInterval(runStrategy, 7500, thisBinance, strategyInfo, count - 1);
                     });
                     res.json(result);
