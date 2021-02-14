@@ -163,7 +163,7 @@ exports.strategyController = {
 
     getStrategies(req, res) {
         let filter = {};
-        filter.user_id = req.user.id;
+        filter.user_id = req.user.user_id;
         if ('currency' in req.query)
             filter.currency = req.query.currency;
         if ('status' in req.query)
