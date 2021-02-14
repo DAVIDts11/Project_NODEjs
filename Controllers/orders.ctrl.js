@@ -1,4 +1,3 @@
-// const { binance } = require('../binance_connection');
 //const Strategy = require('../Models/strategy');
 const Order_Strategy = require('../Models/orders_strategies');
 const { binanceConectedList } = require("./binance.ctrl");
@@ -27,8 +26,6 @@ exports.ordersController = {
                     })();
                     res.json(result_list)
                 })();
-
-
             })
             .catch(err => console.log(`Erorr getting the data from db: ${err}`));
     },
