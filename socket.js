@@ -3,10 +3,15 @@ const {isHammer} = require("./type_strategies")
 
 
 let last = {};
-exports.Socket = function openSocket(currencyStr) {
+let sockets = {};
+exports.Socket = function openSocket(currencyStr,strategyID) {
     binance.websockets.chart(currencyStr, "2h", (symbol, interval, chart) => {
         let tick = binance.last(chart);
         last[currencyStr] = chart[tick].close;
+        if (!sockets[currencyStr]){
+            sockets[currencyStr]=[];
+        }
+        sockets[currencyStr].push(strategyID);
         //console.info(chart);
         // Optionally convert 'chart' object to array:
         let ohlc = binance.ohlc(chart);
@@ -18,3 +23,4 @@ exports.Socket = function openSocket(currencyStr) {
 };
 
 exports.last =last;
+exports.sockets = sockets;

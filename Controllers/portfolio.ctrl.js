@@ -1,13 +1,16 @@
-const { binance } = require('../binance_connection');
+// const { binance } = require('../binance_connection');
+const { binanceConectedList } = require("./binance.ctrl");
+
 
 exports.portfolioController = {
     getPortfolio(req, res) {
+        thisBinance = binanceConectedList[req.user.id];
         async function getAllBalances() {
-            return await binance.balance();
+            return await thisBinance.balance();
         };
 
         async function getUsdValue(asset)  {
-            const val = await binance.prices(asset + 'USDT');
+            const val = await thisBinance.prices(asset + 'USDT');
             console.log(val[asset + 'USDT']);
             return Number(val[asset + 'USDT']);
         };
@@ -37,8 +40,9 @@ exports.portfolioController = {
 
 
     getPrices(req, res) {
+        thisBinance = binanceConectedList[req.user.id];
         async function getAllPrices() {
-            return await binance.prices();
+            return await thisBinance.prices();
         };
         (async () => {
             const prices = await getAllPrices();

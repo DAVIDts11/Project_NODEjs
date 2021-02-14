@@ -1,20 +1,25 @@
 const Strategy = require('../Models/strategy');
 const Order_Strategy = require('../Models/orders_strategies');
-const { binance } = require('../binance_connection');
-const {binanceConectedList}=require("./binance.ctrl");
+// const { binance } = require('../binance_connection');
+const { binanceConectedList } = require("./binance.ctrl");
 require("../socket");
-const { Socket, last } = require("../socket");
+const { Socket, last ,sockets } = require("../socket");
 
 const { Strategy_Result } = require("../type_strategies");
 
 const binanceCommitionPr = 0.5;
+
+async function getAllBalances(thisBinance) {
+    return await thisBinance.balance();
+};
+
 
 function updateStrategyStatus(strategyID, newStatus) {
     Strategy.updateOne({ strategy_id: strategyID }, {
         status: newStatus
     })
         .then(docs => { res.json(docs) })
-        //.catch(err => console.log(`Error update strategy  status from db `));
+    //.catch(err => console.log(`Error update strategy  status from db `));
 }
 
 
@@ -44,16 +49,16 @@ function sleep(ms) {
     });
 }
 
-function setStopLimits(strategyInfo, count, pair, lastestPrice) {
+function setStopLimits(thisBinance, strategyInfo, count, pair, lastestPrice) {
     // set stop loss and take profit :
     let quantity = Number(strategyInfo["amount"]);
-    let profitPrice = Number((lastestPrice * (100 + strategyInfo["take_profit"]) / 100).toFixed(7));                                     
-    let stop_Price = Number((lastestPrice * (100 - strategyInfo["stop_loss"]) / 100).toFixed(7));        
-    let stop_Limit_Price = stop_Price;      
+    let profitPrice = Number((lastestPrice * (100 + strategyInfo["take_profit"]) / 100).toFixed(7));
+    let stop_Price = Number((lastestPrice * (100 - strategyInfo["stop_loss"]) / 100).toFixed(7));
+    let stop_Limit_Price = stop_Price;
     console.log(`pair = ${pair} ,quantity = ${quantity} , profitPrice = ${profitPrice} , stopPrice = ${stop_Price} , stopLimitPrice = ${stop_Limit_Price} `);
     console.log(typeof (pair), typeof (quantity), typeof (profitPrice), typeof (stop_Price), typeof (stop_Limit_Price));
 
-    binance.sell(pair, quantity, profitPrice, { type: "OCO", stopLimitPrice: stop_Limit_Price, stopPrice: stop_Price }, (error, response) => {
+    thisBinance.sell(pair, quantity, profitPrice, { type: "OCO", stopLimitPrice: stop_Limit_Price, stopPrice: stop_Price }, (error, response) => {
         console.info("RESPONSE:", response);
         if (response.orders) {
             console.info("ORDER_IDS: ", response.orders[0].orderId, " ", response.orders[1].orderId);
@@ -74,11 +79,11 @@ function setStopLimits(strategyInfo, count, pair, lastestPrice) {
 
 }
 
-function buyMarket(strategyInfo, count) {
+function buyMarket(thisBinance, strategyInfo, count) {
     let quantity = strategyInfo["amount"];
     let order_str;
     // buy market:
-    binance.marketBuy(strategyInfo["currency"], quantity, (error, response) => {
+    thisBinance.marketBuy(strategyInfo["currency"], quantity, (error, response) => {
         console.info("Market Buy response", response);
         console.info("order id: " + response.orderId);
         order_str = new Order_Strategy({
@@ -92,11 +97,11 @@ function buyMarket(strategyInfo, count) {
         // // lastest price:
         let pair = strategyInfo["currency"];
 
-        binance.prices(pair, (error, ticker) => {
+        thisBinance.prices(pair, (error, ticker) => {
             console.info(`Price of ${pair}:  ${ticker[pair]}`);   //
             let lastestPrice = Number(ticker[pair]);
             // set OCO order :
-            setStopLimits(strategyInfo, count, pair, lastestPrice);
+            setStopLimits(thisBinance, strategyInfo, count, pair, lastestPrice);
 
         });
 
@@ -105,17 +110,17 @@ function buyMarket(strategyInfo, count) {
 
 
 
-function runStrategy(strategyInfo, count) {
+function runStrategy(thisBinance, strategyInfo, count) {
     let strategy_status;
     console.log(count);
     (async () => {
-        await Strategy.find({ strategy_id: count }).      
+        await Strategy.find({ strategy_id: count }).
             then(docs => { strategy_status = docs[0]["status"] })
             .catch(err => console.log('Erorr getting the data from db: ${err}'));
         console.log(strategy_status);
         if (strategy_status == "waiting_to_buy") {
             if (Strategy_Result[strategyInfo["strategy_type"]] == "yes") {
-                buyMarket(strategyInfo, count);
+                buyMarket(thisBinance, strategyInfo, count);
             }
         }
     }
@@ -129,7 +134,7 @@ function runStrategy(strategyInfo, count) {
 exports.strategyController = {
     addStrategy(req, res) {
         strategyInfo = {
-            "user_id": req.body.user_id,
+            "user_id": req.user.user_id,
             "strategy_type": req.body.strategy_type,
             "currency": req.body.currency,
             "amount": req.body.amount,
@@ -137,14 +142,15 @@ exports.strategyController = {
             "stop_loss": req.body.stop_loss
         }
         const newStrategy = new Strategy(strategyInfo);
+        thisBinance = binanceConectedList[req.user.id];
         const result = newStrategy.save()
             .then(result => {
                 if (result) {
                     // console.log(Strategy_Result[req.body.strategy_type]);
 
                     Strategy.nextCount(function (err, count) {
-                        Socket(strategyInfo["currency"]);
-                        setInterval(runStrategy, 7500, strategyInfo, count - 1);
+                        Socket(strategyInfo["currency"],count - 1);
+                        setInterval(runStrategy, 7500, thisBinance, strategyInfo, count - 1);
                     });
                     res.json(result);
                 }
@@ -156,15 +162,22 @@ exports.strategyController = {
     },
 
     getStrategies(req, res) {
-        let filter = {};
-        filter.user_id = req.query.user_id;
-        if ('currency' in req.query)
-            filter.currency = req.query.currency;
-        if ('status' in req.query)
-            filter.status = req.query.status;
-        Strategy.find(filter).
-            then(docs => { res.json(docs) })
-            .catch(err => console.log(`Erorr getting the data from db: ${err}`));
+        //  NISUY
+        console.log(req.user.user_id);
+        thisBinance = binanceConectedList[req.user.id];
+        (async () => {
+            const bb = await getAllBalances(thisBinance);
+            console.log(bb);
+        })();
+        // let filter = {};
+        // filter.user_id = req.query.user_id;
+        // if ('currency' in req.query)
+        //     filter.currency = req.query.currency;
+        // if ('status' in req.query)
+        //     filter.status = req.query.status;
+        // Strategy.find(filter).
+        //     then(docs => { res.json(docs) })
+        //     .catch(err => console.log(`Erorr getting the data from db: ${err}`));
     },
 
     getStrategy(req, res) {

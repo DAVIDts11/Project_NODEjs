@@ -2,10 +2,10 @@ const User = require('../Models/user');
 const Binance = require('node-binance-api');
 const {cryptr} = require("../config/passport_setup")
 
-const binanceConectedList = [];
+const binanceConectedList = {};
 
 exports.BinanceController = {
-    async conectBinance(req, res) {
+    async connectBinance(req, res) {
         const decrypteBinanceKey = cryptr.decrypt(req.user.binance_key);
         const decrypteBinancePrivate = cryptr.decrypt(req.user.binance_private);
         console.log("dec key =",decrypteBinanceKey );
@@ -16,10 +16,8 @@ exports.BinanceController = {
             useServerTime: true
         });
 
-        binanceConectedList.push({
-            userID: req.user.id,
-            binance : binance
-        });
+        binanceConectedList[req.user.id] = binance ;
+        
     }
 }
 

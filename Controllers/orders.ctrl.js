@@ -1,20 +1,22 @@
-const { binance } = require('../binance_connection');
+// const { binance } = require('../binance_connection');
 //const Strategy = require('../Models/strategy');
 const Order_Strategy = require('../Models/orders_strategies');
+const { binanceConectedList } = require("./binance.ctrl");
 
 
-async function getAllOpenOrders() {
-    return await binance.openOrders();
+async function getAllOpenOrders(thisBinance) {
+    return await thisBinance.openOrders();
 };
 
 exports.ordersController = {
     getOrders(req, res) {
+        thisBinance = binanceConectedList[req.user.id];
         let result_list = [];
         Order_Strategy.find({ user_id: req.query.user_id }).
             then(docs => {
                 (async () => {
                     await (async () => {
-                        const openOrders = await getAllOpenOrders();
+                        const openOrders = await getAllOpenOrders(thisBinance);
                         for (i in openOrders) {
                             for (j in docs) {
                                 if (openOrders[i]["orderId"] == docs[j]["order_id"]) {

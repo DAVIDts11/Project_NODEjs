@@ -1,7 +1,6 @@
-
-
 let hammerResult;
 let Strategy_Result = {};
+
 // 1-  hamer 
 
 exports.isHammer = function isHammer(open, high, close, low) {

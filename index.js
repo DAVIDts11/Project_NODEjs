@@ -1,49 +1,55 @@
-
 require('dotenv').config();
 require('./server');
-require('./binance_connection');
-
-const { binance } = require('./binance_connection');
+// require('./binance_connection');
+// const { binance } = require('./binance_connection');
 require("./type_strategies");
 
 
-
-async function getAllBalances() {
-    return await binance.balance();
-};
-
+// async function getAllBalances() {
+//     return await binance.balance();
+// };
 
 
-async function getAllPrices() {
-    return await binance.prices();
-};
+// async function getAllPrices() {
+//     return await binance.prices();
+// };
 
-async function getAllOpenOrders() {
-    return await binance.openOrders();
-};
+// async function getAllOpenOrders() {
+//     return await binance.openOrders();
+// };
 
 
-function getRelevantBalance(balances) {
-    const balance = {};
-    for (asset in balances) {
-        if (balances[asset]['available'] > 0 || balances[asset]['onOrder'] > 0) {
-            let num = Number(balances[asset]['available']) + Number(balances[asset]['onOrder']);
-            balance[asset] = num;
-        }
-    }
-    return balance;
-};
-
-;
+// function getRelevantBalance(balances) {
+//     const balance = {};
+//     for (asset in balances) {
+//         if (balances[asset]['available'] > 0 || balances[asset]['onOrder'] > 0) {
+//             let num = Number(balances[asset]['available']) + Number(balances[asset]['onOrder']);
+//             balance[asset] = num;
+//         }
+//     }
+//     return balance;
+// };
 
 
 
 
-//Getting All Balances:
-(async () => {
-    const balances = await getAllBalances();
-    console.log(getRelevantBalance(balances));
-})();
+
+
+// //Getting All Balances:
+// (async () => {
+//     const balances = await getAllBalances();
+//     console.log(getRelevantBalance(balances));
+// })();
+
+
+// (async () => {
+//     const openOrders = await getAllOpenOrders();
+//     console.log(openOrders);
+// })();
+
+
+
+
 
 
 
@@ -83,10 +89,7 @@ function getRelevantBalance(balances) {
 // stopPrice = 0.00001108;
 // binance.sell("IOTABTC", quantity, price, {stopPrice: stopPrice, type: type});
 //Getting All Open:
-(async () => {
-    const openOrders = await getAllOpenOrders();
-    console.log(openOrders);
-})();
+
 
 // // Intervals: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
 // binance.candlesticks("ETHBTC", "5m", (error, ticks, symbol) => {
