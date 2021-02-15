@@ -9,9 +9,9 @@ async function getAllOpenOrders(thisBinance) {
 
 exports.ordersController = {
     getOrders(req, res) {
-        thisBinance = binanceConectedList[req.user.id];
+        const thisBinance = binanceConectedList[req.user.id];
         let result_list = [];
-        Order_Strategy.find({ user_id: req.query.user_id }).
+        Order_Strategy.find({ user_id: req.user.user_id }).
             then(docs => {
                 (async () => {
                     await (async () => {
