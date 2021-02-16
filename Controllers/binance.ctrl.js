@@ -51,8 +51,8 @@ exports.BinanceController = {
     buyMarket(req, res) {
         const thisBInance = binanceConectedList[req.user.id];
         const quantity = req.body.quantity;
-        const currencyPair = req.body.currencyPair;
-        thisBInance.marketBuy(currencyPair, quantity, (error, response) => {
+        const symbol = req.params.symbol;
+        thisBInance.marketBuy(symbol, quantity, (error, response) => {
             console.info("Market Buy response", response);
             console.info("order id: " + response.orderId);
             saveOrder(response.orderId, req.user.user_id);
