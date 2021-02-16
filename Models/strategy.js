@@ -23,6 +23,7 @@ const  strategy = new Schema({
     strategy_id: {type: Number, default: 0, unique: true},
     user_id: {type : Number },
     strategy_type : {type: String, required:true},
+    socket_id : {type: String, default:""},
     status:{type:String, default:"waiting_to_buy"},
     date_begin: { type: Date , default: Date.now},
     currency: { type: String},

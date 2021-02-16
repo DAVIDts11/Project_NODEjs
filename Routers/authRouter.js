@@ -8,7 +8,8 @@ router.get('/login', (req, res) => {
 
 // auth logout
 router.get('/logout', (req, res) => {
-    req.logout();
+    req.logOut();
+    console.log("loged out");
 });
 
 // auth with google+

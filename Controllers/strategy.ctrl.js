@@ -3,7 +3,7 @@ const Order_Strategy = require('../Models/orders_strategies');
 // const { binance } = require('../binance_connection');
 const { binanceConectedList } = require("./binance.ctrl");
 require("../socket");
-const { Socket, last ,sockets } = require("../socket");
+const { Socket, last, sockets } = require("../socket");
 
 const { Strategy_Result } = require("../type_strategies");
 
@@ -119,7 +119,7 @@ function runStrategy(thisBinance, strategyInfo, count) {
             .catch(err => console.log('Erorr getting the data from db: ${err}'));
         console.log(strategy_status);
         if (strategy_status == "waiting_to_buy") {
-            if (Strategy_Result[strategyInfo["strategy_type"]] == "yes") {
+            if (Strategy_Result[strategyInfo["strategy_type"]] == true) {
                 buyMarket(thisBinance, strategyInfo, count);
             }
         }
@@ -142,6 +142,7 @@ exports.strategyController = {
         // console.log(req.body, "\n");
         const newStrategy = new Strategy(strategyInfo);
         const thisBinance = binanceConectedList[req.user.id];
+        let socketID = "";
         const result = newStrategy.save()
             .then(result => {
                 if (result) {
@@ -149,13 +150,17 @@ exports.strategyController = {
                     Strategy.nextCount(function (err, count) {
                         const strategy_id = count - 1;
                         console.log(strategy_id);
-                        Socket(thisBinance,strategyInfo["currency"],strategy_id);
-                        setInterval(runStrategy, 7500, thisBinance, strategyInfo, count - 1);
+                        socketID = Socket(thisBinance, strategyInfo["currency"], strategy_id);
+                        Strategy.updateOne({ strategy_id: strategy_id }, { socket_id: socketID })
+                            .then(console.log("strategy update"))
+                            .catch(err => console.log(`Error update strategy from db : ${strategy_id}`));
+
+                        setInterval(runStrategy, 7500, thisBinance, strategyInfo, strategy_id);
                     });
                     res.json(result);
                 }
                 else {
-                    res.status(404).send("Error saving a Schedule");
+                    res.status(404).send("Error saving a strategy");
                 }
             })
             .catch(err => console.log(`Error saving the data from db: ${err}`))
@@ -186,7 +191,7 @@ exports.strategyController = {
             stop_loss: req.body.stop_loss
         })
             .then(docs => { res.json(docs) })
-            .catch(err => console.log(`Error update schedule from db : ${req.params.id}`));
+            .catch(err => console.log(`Error update strategy from db : ${req.params.id}`));
     },
 
     deleteStrategy(req, res) {
