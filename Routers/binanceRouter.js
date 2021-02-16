@@ -6,7 +6,8 @@ const BinanceRouter= new Router;
 
 
 BinanceRouter.get('/connect', BinanceController.connectBinance);
-// BinanceRouter.get('/', BinanceController.getB);
+BinanceRouter.post('/buyMarket', BinanceController.buyMarket);
+BinanceRouter.post('/sellMarket', BinanceController.sellMarket);
 // BinanceRouter.get('/:id', BinanceController.getB);
 // BinanceRouter.put('/:id', BinanceController.updateB);
 // BinanceRouter.delete('/:id', BinanceController.deleteB);
