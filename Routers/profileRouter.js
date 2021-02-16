@@ -18,4 +18,10 @@ router.get('/', authCheck, (req, res) => {
 
 router.put("/", authCheck, profileController.updateUser);
 
+router.put("/setPremium", authCheck, profileController.setPremium);
+
+
+
+
+
 module.exports = router;
