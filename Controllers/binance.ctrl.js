@@ -41,8 +41,8 @@ exports.BinanceController = {
     },
     getPriceForSymbol(req, res) {
         const thisBInance = binanceConectedList[req.user.id];
-        const currencyPair = req.params.currencyPair;
-        thisBInance.bookTickers(currencyPair, (error, ticker) => {
+        const symbol = req.params.symbol;
+        thisBInance.bookTickers(symbol, (error, ticker) => {
             console.info("bookTickers", ticker);
             res.send(ticker);
         });
@@ -62,8 +62,8 @@ exports.BinanceController = {
     sellMarket(req, res) {
         const thisBInance = binanceConectedList[req.user.id];
         const quantity = req.body.quantity;
-        const currencyPair = req.body.currencyPair;
-        thisBInance.marketSell(currencyPair, quantity, (error, response) => {
+        const symbol = req.body.currencyPair;
+        thisBInance.marketSell(symbol, quantity, (error, response) => {
             console.info("Market Sell response", response);
             console.info("order id: " + response.orderId);
             saveOrder(response.orderId, req.user.user_id);
