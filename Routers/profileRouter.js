@@ -22,6 +22,4 @@ router.put("/setPremium", authCheck, profileController.setPremium);
 
 
 
-
-
 module.exports = router;
