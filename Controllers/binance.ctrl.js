@@ -45,6 +45,7 @@ exports.BinanceController = {
         thisBInance.bookTickers(symbol, (error, ticker) => {
             console.info("bookTickers", ticker);
             res.send(ticker);
+         
         });
 
     },
