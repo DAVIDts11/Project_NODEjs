@@ -55,24 +55,22 @@ exports.BinanceController = {
         const quantity = req.body.quantity;
         const symbol = req.body.symbol;
         const order_type = req.body.order_type;
+
         if (order_type == "buy") {
             thisBInance.marketBuy(symbol, quantity, (error, response) => {
-                console.info("Market Buy response", response);
-                console.info("order id: " + response.orderId);
                 saveOrder(response.orderId, req.user.user_id);
+                res.send(response)
             });
         }
         else if (order_type == "sell") {
             thisBInance.marketSell(symbol, quantity, (error, response) => {
-                console.info("Market Sell response", response);
-                console.info("order id: " + response.orderId);
                 saveOrder(response.orderId, req.user.user_id);
+                res.send(response)
             });
         }
         else {
-            res.send("incorect  order type");
+            res.send("incorect order type");
         }
-
     },
 
     limitOrder(req, res) {
@@ -82,14 +80,14 @@ exports.BinanceController = {
         const price = req.body.price;
         const order_type = req.body.order_type;
         if (order_type == "buy") {
-            thisBInance.buy(symbol, quantity, price, (error, response) => {
+            thisBInance.buy(symbol, quantity, price, { type: 'LIMIT' }, (error, response) => {
                 console.info("Limit buy response", response);
                 console.info("order id: " + response.orderId);
                 saveOrder(response.orderId, req.user.user_id);
             });
         }
         else if (order_type == "sell") {
-            thisBInance.sell(symbol, quantity, price, (error, response) => {
+            thisBInance.sell(symbol, quantity, price, { type: 'LIMIT' }, (error, response) => {
                 console.info("Limit sell response", response);
                 console.info("order id: " + response.orderId);
                 saveOrder(response.orderId, req.user.user_id);
