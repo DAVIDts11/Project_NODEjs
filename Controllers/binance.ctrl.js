@@ -80,14 +80,14 @@ exports.BinanceController = {
         const price = req.body.price;
         const order_type = req.body.order_type;
         if (order_type == "buy") {
-            thisBInance.buy(symbol, quantity, price, { type: 'LIMIT' }, (error, response) => {
+            thisBInance.buy(symbol, quantity, price,{type:'LIMIT'}, (error, response) => {
                 console.info("Limit buy response", response);
                 console.info("order id: " + response.orderId);
                 saveOrder(response.orderId, req.user.user_id);
             });
         }
         else if (order_type == "sell") {
-            thisBInance.sell(symbol, quantity, price, { type: 'LIMIT' }, (error, response) => {
+            thisBInance.sell(symbol, quantity, price,{type:'LIMIT'}, (error, response) => {
                 console.info("Limit sell response", response);
                 console.info("order id: " + response.orderId);
                 saveOrder(response.orderId, req.user.user_id);
@@ -97,6 +97,13 @@ exports.BinanceController = {
             res.send("incorect  order type");
         }
     },
+    getBTCUSD(req,res){
+        const thisBInance = binanceConectedList[req.user.id];
+        thisBInance.prices('BTCUSDT', (error, ticker) => {
+            console.info("Price of BTC: ", ticker.BTCUSDT);
+            res.send(ticker.BTCUSDT);
+          });
+    }
 
 }
 
