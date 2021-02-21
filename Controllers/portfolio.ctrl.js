@@ -1,17 +1,16 @@
-// const { binance } = require('../binance_connection');
 const { binanceConectedList } = require("./binance.ctrl");
 
 
 exports.portfolioController = {
     getPortfolio(req, res) {
-        
+
         let thisBinance = binanceConectedList[req.user.id];
 
         async function getAllBalances() {
             return await thisBinance.balance();
         };
 
-        async function getUsdValue(asset)  {
+        async function getUsdValue(asset) {
             const val = await thisBinance.prices(asset + 'USDT');
             console.log(val[asset + 'USDT']);
             return Number(val[asset + 'USDT']);
@@ -23,18 +22,18 @@ exports.portfolioController = {
             for (asset in balances) {
                 if (balances[asset]['available'] > 0 || balances[asset]['onOrder'] > 0) {
                     let num = Number(balances[asset]['available']) + Number(balances[asset]['onOrder']);
-                    assetValue =  await getUsdValue(asset);
-                    balance.push({ "id": asset, "amount": num, "value": assetValue*num })
+                    assetValue = await getUsdValue(asset);
+                    balance.push({ "id": asset, "amount": num, "value": assetValue * num })
                 }
             }
-            console.log("new balance:" ,balance);
+            console.log("new balance:", balance);
             return balance;
         };
 
         (async () => {
             const balances = await getAllBalances();
             let Portfolio = await getRelevantBalance(balances);
-            console.log("new balance:" ,Portfolio);
+            console.log("new balance:", Portfolio);
             res.send(Portfolio);
         })();
     },

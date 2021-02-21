@@ -5,7 +5,6 @@ const {strategyController}= require('../Controllers/strategy.ctrl');
 
 const StrategyRouter= new Router;
 
-
 StrategyRouter.post('/', strategyController.addStrategy);
 StrategyRouter.get('/', strategyController.getStrategies);
 StrategyRouter.get('/:id', strategyController.getStrategy);

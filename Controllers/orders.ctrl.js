@@ -1,4 +1,3 @@
-//const Strategy = require('../Models/strategy');
 const Order_Strategy = require('../Models/orders_strategies');
 const { binanceConectedList } = require("./binance.ctrl");
 
@@ -11,8 +10,8 @@ exports.ordersController = {
     getOrders(req, res) {
         const thisBinance = binanceConectedList[req.user.id];
         let result_list = [];
-        Order_Strategy.find({ user_id: req.user.user_id }).
-            then(docs => {
+        Order_Strategy.find({ user_id: req.user.user_id })
+            .then(docs => {
                 (async () => {
                     await (async () => {
                         const openOrders = await getAllOpenOrders(thisBinance);

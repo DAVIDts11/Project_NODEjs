@@ -45,7 +45,6 @@ exports.BinanceController = {
         thisBInance.bookTickers(symbol, (error, ticker) => {
             console.info("bookTickers", ticker);
             res.send(ticker);
-
         });
 
     },
@@ -54,15 +53,15 @@ exports.BinanceController = {
         const thisBInance = binanceConectedList[req.user.id];
         const quantity = req.body.quantity;
         const symbol = req.body.symbol;
-        const order_type = req.body.order_type;
+        const action_type = req.body.action_type;
 
-        if (order_type == "buy") {
+        if (action_type == "buy") {
             thisBInance.marketBuy(symbol, quantity, (error, response) => {
                 saveOrder(response.orderId, req.user.user_id);
                 res.send(response)
             });
         }
-        else if (order_type == "sell") {
+        else if (action_type == "sell") {
             thisBInance.marketSell(symbol, quantity, (error, response) => {
                 saveOrder(response.orderId, req.user.user_id);
                 res.send(response)
@@ -78,35 +77,43 @@ exports.BinanceController = {
         const quantity = req.body.quantity;
         const symbol = req.body.symbol;
         const price = req.body.price;
-        const order_type = req.body.order_type;
-        if (order_type == "buy") {
-            thisBInance.buy(symbol, quantity, price,{type:'LIMIT'}, (error, response) => {
-                console.info("Limit buy response", response);
-                console.info("order id: " + response.orderId);
-                saveOrder(response.orderId, req.user.user_id);
+        const action_type = req.body.action_type;
+
+        if (action_type == "buy") {
+            thisBInance.buy(symbol, quantity, price, { type: 'LIMIT' }, (error, response) => {
+                if (error)
+                    res.send(error.body);
+                else {
+                    res.send(response);
+                    saveOrder(response.orderId, req.user.user_id);
+                }
             });
         }
-        else if (order_type == "sell") {
-            thisBInance.sell(symbol, quantity, price,{type:'LIMIT'}, (error, response) => {
-                console.info("Limit sell response", response);
-                console.info("order id: " + response.orderId);
-                saveOrder(response.orderId, req.user.user_id);
+        else if (action_type == "sell") {
+            thisBInance.sell(symbol, quantity, price, { type: 'LIMIT' }, (error, response) => {
+                if (error)
+                    res.send(error.body);
+                else {
+                    res.send(response);
+                    saveOrder(response.orderId, req.user.user_id);
+                }
             });
         }
         else {
-            res.send("incorect  order type");
+            res.send("incorect order type");
         }
     },
-    getBTCUSD(req,res){
-        const thisBInance = binanceConectedList[req.user.id];
-        thisBInance.prices('BTCUSDT', (error, ticker) => {
-            console.info("Price of BTC: ", ticker.BTCUSDT);
-            res.send(ticker.BTCUSDT);
-          });
+    getBTCUSD(req, res) {
+        try {
+            const thisBInance = binanceConectedList[req.user.id];
+            thisBInance.prices('BTCUSDT', (error, ticker) => {
+                res.send(ticker.BTCUSDT)
+            });
+        }
+        catch {
+            res.send("ERROR 404")
+        }
     }
-
 }
-
-
 
 exports.binanceConectedList = binanceConectedList;

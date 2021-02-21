@@ -10,7 +10,7 @@ exports.cryptr = new Cryptr(consts.GOOGLE_AUTH.crypto);
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
-    
+
 });
 
 passport.deserializeUser((id, done) => {
@@ -27,13 +27,13 @@ passport.use(
         callbackURL: '/auth/google/redirect'
     }, (accessToken, refreshToken, profile, done) => {
         // check if user already exists in our own db
-        User.findOne({googleId: profile.id}).then((currentUser) => {
-            if(currentUser){
+        User.findOne({ googleId: profile.id }).then((currentUser) => {
+            if (currentUser) {
                 // already have this user
                 done(null, currentUser);
             } else {
                 // if not, create user in our db
-              const newUser =  new User({
+                const newUser = new User({
                     googleId: profile.id,
                     username: profile.displayName,
                     thumbnail: profile._json.picture

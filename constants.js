@@ -4,17 +4,14 @@ const DB_CONSTANTS = {
     DB_PASS: process.env.DB_PASS
 }
 
-
 const BINANCE_API_TEMP = {
     BINANCE_KEY: process.env.BINANCE_KEY,
     BINANCE_PRIVATE: process.env.BINANCE_PRIVATE
 }
 
-
-
 GOOGLE_AUTH = {
     google: {
-        clientID: process.env.CLIENT_ID ,
+        clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET
     },
     session: {

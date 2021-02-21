@@ -2,26 +2,34 @@ const express = require("express");
 const { StrategyRouter } = require("./Routers/strategyRouter");
 const { OrdersRouter } = require("./Routers/ordersRouter");
 const { PortfolioRouter } = require("./Routers/portfolioRouter");
-const {BinanceRouter} = require("./Routers/binanceRouter");
+const { BinanceRouter } = require("./Routers/binanceRouter");
 const cookieSession = require('cookie-session');
 const consts = require('./constants');
 const passport = require('passport');
 const authRoutes = require('./Routers/authRouter');
 const profileRoutes = require('./Routers/profileRouter');
-require('./config/passport_setup');
-require('./db_connection');
 const cors = require('cors');
 
+require('./config/passport_setup');
+require('./db_connection');
+
 const app = express();
+
 app.use(express.json());
 
-app.use(cors({credentials: true, origin:"http://localhost:3000"}));
-// app.use(bodyParser.json());
+// Permissions
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Credentials', true);
+    next();
+});
 
-// set view engine
+// View Engine Setup
 app.set('view engine', 'ejs');
 
-// set up session cookies
+// Coockies Session Setup
 app.use(cookieSession({
     name: 'david',
     maxAge: 24 * 60 * 60 * 1000,
@@ -29,39 +37,29 @@ app.use(cookieSession({
 }));
 
 
-// initialize passport
+// Passport Init
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-// // set up routes
+// Routers Setup
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
-
 app.use("/api/strategy", StrategyRouter);
 app.use("/api/orders", OrdersRouter);
 app.use("/api/portfolio", PortfolioRouter);
-app.use("/api/binance",BinanceRouter)
-
+app.use("/api/binance", BinanceRouter)
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    // res.header('Access-Control-Allow-Origin', '*');  
-    // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Credentials', true);
-    
-    next();
-});
 
 
+//Error Handling
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something is broken!');
 });
 
-app.all('*',(req,res)=>{res.status(404).send("page not found");});
+app.all('*', (req, res) => { res.status(404).send("page not found"); });
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log('Express server is running on port ', port));
