@@ -4,9 +4,7 @@ const consts = require('../constants');
 const User = require('../Models/user');
 const Cryptr = require("cryptr");
 
-
 exports.cryptr = new Cryptr(consts.GOOGLE_AUTH.crypto);
-
 
 passport.serializeUser((user, done) => {
     done(null, user.id);

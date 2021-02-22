@@ -13,9 +13,11 @@ const cors = require('cors');
 require('./config/passport_setup');
 require('./db_connection');
 
-const app = express();
 
+//Express 
+const app = express();
 app.use(express.json());
+
 
 // Permissions
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
@@ -26,8 +28,10 @@ app.use((req, res, next) => {
     next();
 });
 
+
 // View Engine Setup
 app.set('view engine', 'ejs');
+
 
 // Coockies Session Setup
 app.use(cookieSession({
@@ -52,15 +56,15 @@ app.use("/api/binance", BinanceRouter)
 app.use(express.urlencoded({ extended: true }));
 
 
-
 //Error Handling
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something is broken!');
 });
-
 app.all('*', (req, res) => { res.status(404).send("page not found"); });
 
+
+// Port
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log('Express server is running on port ', port));
 

@@ -1,7 +1,6 @@
 const Order_Strategy = require('../Models/orders_strategies');
 const { binanceConectedList } = require("./binance.ctrl");
 
-
 async function getAllOpenOrders(thisBinance) {
     return await thisBinance.openOrders();
 };
@@ -15,8 +14,8 @@ exports.ordersController = {
                 (async () => {
                     await (async () => {
                         const openOrders = await getAllOpenOrders(thisBinance);
-                        for (i in openOrders) {
-                            for (j in docs) {
+                        for (const i in openOrders) {
+                            for (const j in docs) {
                                 if (openOrders[i]["orderId"] == docs[j]["order_id"]) {
                                     result_list.push(openOrders[i]);
                                 }

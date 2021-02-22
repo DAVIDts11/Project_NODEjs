@@ -1,17 +1,12 @@
 const Strategy = require('../Models/strategy');
 const Order_Strategy = require('../Models/orders_strategies');
-// const { binance } = require('../binance_connection');
 const { binanceConectedList } = require("./binance.ctrl");
 require("../socket");
 const { Socket, last, sockets } = require("../socket");
 
 const { Strategy_Result } = require("../type_strategies");
 
-const binanceCommitionPr = 0.5;
 
-async function getAllBalances(thisBinance) {
-    return await thisBinance.balance();
-};
 
 
 function updateStrategyStatus(strategyID, newStatus) {
@@ -19,7 +14,6 @@ function updateStrategyStatus(strategyID, newStatus) {
         status: newStatus
     })
         .then(docs => { res.json(docs) })
-    //.catch(err => console.log(`Error update strategy  status from db `));
 }
 
 
@@ -42,12 +36,6 @@ function saveOrder(order_str, strategy_id, orderType) {
         .catch(err => console.log(`Error saving the data from db order_str: ${err}`))
 
 }
-
-// function sleep(ms) {
-//     return new Promise((resolve) => {
-//         setTimeout(resolve, ms);
-//     });
-// }
 
 function setStopLimits(thisBinance, strategyInfo, count, pair, lastestPrice) {
     // set stop loss and take profit :
@@ -74,7 +62,6 @@ function setStopLimits(thisBinance, strategyInfo, count, pair, lastestPrice) {
                 saveOrder(order_str, count, orderType);
             }
         }
-
     });
 
 }
@@ -100,11 +87,10 @@ function buyMarket(thisBinance, strategyInfo, count) {
         thisBinance.prices(pair, (error, ticker) => {
             console.info(`Price of ${pair}:  ${ticker[pair]}`);   //
             let lastestPrice = Number(ticker[pair]);
+
             // set OCO order :
             setStopLimits(thisBinance, strategyInfo, count, pair, lastestPrice);
-
         });
-
     });
 }
 
@@ -146,10 +132,9 @@ exports.strategyController = {
         const result = newStrategy.save()
             .then(result => {
                 if (result) {
-                    // console.log(Strategy_Result[req.body.strategy_type]);
                     Strategy.nextCount(function (err, count) {
                         const strategy_id = count - 1;
-                        console.log(strategy_id);
+                        console.log("strategy id: ", strategy_id);
                         socketID = Socket(thisBinance, strategyInfo["currency"], strategy_id);
                         Strategy.updateOne({ strategy_id: strategy_id }, { socket_id: socketID })
                             .then(console.log("strategy update"))
@@ -191,6 +176,7 @@ exports.strategyController = {
             stop_loss: req.body.stop_loss
         })
             .then(docs => { res.json(docs) })
+            .then(docs => console.log(docs))
             .catch(err => console.log(`Error update strategy from db : ${req.params.id}`));
     },
 

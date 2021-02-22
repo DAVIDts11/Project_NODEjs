@@ -35,5 +35,4 @@ exports.profileController = {
             })
             .catch(err => console.log(`Error update user from db : ${req.user}`));
     }
-
 }

@@ -3,9 +3,7 @@ const Binance = require('node-binance-api');
 const Order_Strategy = require('../Models/orders_strategies');
 const { cryptr } = require("../config/passport_setup")
 
-
 const binanceConectedList = {};
-
 
 function saveOrder(orderId, user_id) {
     order_str = new Order_Strategy({
@@ -13,6 +11,7 @@ function saveOrder(orderId, user_id) {
         "order_id": orderId,
         "user_id": user_id
     })
+
     const result = order_str.save()
         .then(result => {
             if (result) {
@@ -35,10 +34,9 @@ exports.BinanceController = {
             APISECRET: decrypteBinancePrivate,
             useServerTime: true
         });
-
         binanceConectedList[req.user.id] = binance;
-
     },
+
     getPriceForSymbol(req, res) {
         const thisBInance = binanceConectedList[req.user.id];
         const symbol = req.params.symbol;
@@ -103,6 +101,7 @@ exports.BinanceController = {
             res.send("incorect order type");
         }
     },
+
     getBTCUSD(req, res) {
         try {
             const thisBInance = binanceConectedList[req.user.id];

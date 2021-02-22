@@ -39,7 +39,6 @@ exports.portfolioController = {
     },
 
 
-
     getPrices(req, res) {
         thisBinance = binanceConectedList[req.user.id];
         async function getAllPrices() {
@@ -49,24 +48,5 @@ exports.portfolioController = {
             const prices = await getAllPrices();
             res.send(prices);
         })();
-
     }
-
-    // getStrategies(req, res) {
-    //     const id = req.params.id
-    //     Schedule.find({ id: id }).
-    //         then(docs => { res.json(docs) })
-    //         .catch(err => console.log('Erorr getting the data from db: ${err}'));
-    // },
-    // getStrategy(req, res) {
-    //     let filter= { };
-    //     if('date' in req.query)
-    //         filter.date=req.query.date;
-    //     if('time' in req.query)
-    //         filter.time= req.query.time;
-    //     Schedule.find(filter)
-    //         .then(docs => { res.json(docs) })
-    //         .catch(err => console.log('Error getting the data from db: ${err}'));
-
-    // },
 }
