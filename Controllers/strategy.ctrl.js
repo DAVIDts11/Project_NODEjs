@@ -3,7 +3,6 @@ const Order_Strategy = require('../Models/orders_strategies');
 const { binanceConectedList } = require("./binance.ctrl");
 require("../socket");
 const { Socket, last, sockets } = require("../socket");
-
 const { Strategy_Result } = require("../type_strategies");
 
 
@@ -71,8 +70,6 @@ function buyMarket(thisBinance, strategyInfo, count) {
     let order_str;
     // buy market:
     thisBinance.marketBuy(strategyInfo["currency"], quantity, (error, response) => {
-        console.info("Market Buy response", response);
-        console.info("order id: " + response.orderId);
         order_str = new Order_Strategy({
             "strategy_id": count,
             "order_id": response.orderId,
@@ -148,6 +145,8 @@ exports.strategyController = {
                     res.status(404).send("Error saving a strategy");
                 }
             })
+            .then(console.log("Check Log file!"))
+            .then(docs => logger.morgan)
             .catch(err => console.log(`Error saving the data from db: ${err}`))
     },
 
