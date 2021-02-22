@@ -7,14 +7,14 @@ const Cryptr = require("cryptr");
 exports.cryptr = new Cryptr(consts.GOOGLE_AUTH.crypto);
 
 passport.serializeUser((user, done) => {
-    console.log("serialize",user);
+    console.log("serialize",user.username);
     done(null, user.id);
 
 });
 
 passport.deserializeUser((id, done) => {
     User.findById(id).then((user) => {
-        console.log("deserialize",user);
+        console.log("deserialize",user.username);
         done(null, user);
     });
 });
@@ -31,7 +31,7 @@ passport.use(
             if (currentUser) {
                 // already have this user
                 done(null, currentUser);
-                console.log("findOne",currentUser);
+                console.log("findOne",currentUser.username);
             } else {
                 // if not, create user in our db
                 const newUser = new User({
@@ -40,7 +40,7 @@ passport.use(
                     thumbnail: profile._json.picture
                 })
                 newUser.save().then((newUser) => {
-                    console.log("save",newUser);
+                    console.log("save",newUser.username);
                     done(null, newUser);
                 });
             }

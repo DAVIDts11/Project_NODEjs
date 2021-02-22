@@ -4,7 +4,7 @@ const { profileController } = require('../Controllers/profile.ctrl');
 const authCheck = (req, res, next) => {
     if (!req.user) {
         console.log("... no user ...");
-        res.redirect('https://omridavidproject.netlify.app/');
+        res.redirect('/');
     } else {
         next();
     }
