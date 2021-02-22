@@ -12,10 +12,17 @@ const cors = require('cors');
 
 require('./config/passport_setup');
 require('./db_connection');
+const logger = require("./logs")
 
 
 //Express 
 const app = express();
+
+//logging
+app.use(logger.morgan(
+    `:date :method :url :status :response-time`, { stream: logger.fileStream }));
+
+// using json
 app.use(express.json());
 
 
