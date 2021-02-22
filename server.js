@@ -17,6 +17,7 @@ const logger = require("./logs")
 
 //Express 
 const app = express();
+app.enable("trust proxy")
 
 //logging
 app.use(logger.morgan(
