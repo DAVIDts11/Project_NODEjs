@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const { profileController } = require('../Controllers/profile.ctrl');
 
+
 const authCheck = (req, res, next) => {
     if (!req.user) {
         console.log("... no user ...");
-        res.redirect('/');
+        res.redirect('/login');
     } else {
         next();
     }
