@@ -46,7 +46,8 @@ app.set('view engine', 'ejs');
 app.use(cookieSession({
     name: 'david',
     maxAge: 24 * 60 * 60 * 1000,
-    keys: [consts.GOOGLE_AUTH.session.cookieKey]
+    keys: [consts.GOOGLE_AUTH.session.cookieKey],
+    sameSite: "None"
 }));
 
 
