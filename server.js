@@ -28,7 +28,7 @@ app.use(express.json());
 
 
 // Permissions
-app.use(cors({ credentials: true, origin: "https://omridavidproject.netlify.app/" }));
+app.use(cors({ credentials: true, origin: "https://omridavidproject.netlify.app" }));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin: *')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
