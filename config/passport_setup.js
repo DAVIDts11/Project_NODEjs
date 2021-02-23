@@ -24,7 +24,8 @@ passport.use(
         // options for google strategy
         clientID: consts.GOOGLE_AUTH.google.clientID,
         clientSecret: consts.GOOGLE_AUTH.google.clientSecret,
-        callbackURL: 'https://davidomriproject.herokuapp.com/auth/google/redirect/'
+        callbackURL: 'https://davidomriproject.herokuapp.com/auth/google/redirect/',
+        proxy:true
     }, (accessToken, refreshToken, profile, done) => {
         // check if user already exists in our own db
         User.findOne({ googleId: profile.id }).then((currentUser) => {
